@@ -6,10 +6,14 @@ import { AppComponent } from './app.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SearchpageComponent } from './searchpage/searchpage.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchpageComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

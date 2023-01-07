@@ -1,0 +1,38 @@
+.search-container{
+    display: flex;
+
+    .search-menu{
+        width: 100%;
+        padding-top: 10px;
+
+        .search-bar{
+            width: 60%;
+            display: flex;
+            margin: auto;
+            justify-content: center;
+
+            input{
+                width: 80%;
+                height: 30px;
+                border: 2px solid black;
+                margin-right: 5px;
+            }
+
+            button{
+                width: 20%;
+                height: 36px;
+                border: 2px solid black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                background-color: rgb(197, 255, 222);
+
+                img{
+                    width: 20px;
+                    height: auto;
+                }
+            }
+        }
+    }
+}
