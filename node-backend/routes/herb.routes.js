@@ -1,12 +1,11 @@
 const express = require('express');
-const { nextTick } = require('process');
 const app = express();
 
 const herbRoute = express.Router();
 let Herb = require("../model/herb");
 
 //add herb
-herbRoute.route('/add-herb').post((req, res, nexxt) => {
+herbRoute.route('/add-herb').post((req, res, next) => {
     Herb.create(req.body, (error, data) =>{
         if(error){
             return next(error);
@@ -65,3 +64,4 @@ herbRoute.route('/herb-delete/:id').get((req, res, next) => {
         }
     })
 })
+module.exports = Herb;
