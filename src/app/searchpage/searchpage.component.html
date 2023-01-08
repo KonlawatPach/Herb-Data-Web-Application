@@ -1,13 +1,25 @@
 <div class="search-container">
     <div class="search-menu">
         <div class="search-bar">
-            <input>
-            <button (click)="search()">
+            <input #searchword (keydown.enter)="search(searchword.value); searchword.value = ''">
+            <button (click)="search(searchword.value); searchword.value = ''" class="search-button">
                 <img src="assets/magnifying-glass.svg" alt="magnifying-glass">
+            </button>
+            <button (click)="openfilter();" class="filter-button">
+                <p>filter</p>
+                <img src="assets/filter-icon.svg" alt="filter">
             </button>
         </div>
     </div>
-    <div>
+    <div class="herb-displays">
+        <p>
+            <span *ngIf="displayHerbs.length>0">ผลลัพธ์ทั้งหมด {{displayHerbs.length}} รายการ </span>
+            <span *ngIf="displayHerbs.length<=0">ไม่พบผลลัพธ์การค้นหา </span>
+            <span *ngIf="isSearching">จากคำค้นหา "{{wordSearching}}"</span>
+        </p>
 
+        <div *ngFor="let herb of displayHerbs">
+            <app-herb-box [herb]="herb"></app-herb-box>
+        </div>
     </div>
 </div>

@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+require('dotenv').config();
+const { MONGO_USERNAME, MONGO_PASSWORD, CLUSTER } = process.env;
 
 app.use(express.json());
-mongoose.connect('mongodb+srv://KonlawatPach:ppaacchh2543@cluster0.ufqqckp.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${CLUSTER}.ufqqckp.mongodb.net/?retryWrites=true&w=majority`, {
     useNewUrlParser: true
 })
 // // สร้าง database schema

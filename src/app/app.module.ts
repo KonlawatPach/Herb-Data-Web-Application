@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchpageComponent } from './searchpage/searchpage.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { HerbBoxComponent } from './searchpage/herb-box/herb-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchpageComponent,
-    NavbarComponent
+    NavbarComponent,
+    HerbBoxComponent
   ],
   imports: [
     BrowserModule,
