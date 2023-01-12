@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { herb_data } from '../herblist';
+import { ServicesService } from '../services/services.service';
 
 
 @Component({
@@ -7,6 +8,7 @@ import { herb_data } from '../herblist';
   templateUrl: './searchpage.component.html',
   styleUrls: ['./searchpage.component.scss']
 })
+
 
 export class SearchpageComponent implements OnInit {
   herbs : any  = herb_data;
@@ -17,9 +19,16 @@ export class SearchpageComponent implements OnInit {
   isSearching : boolean = false;
   
 
-  constructor() {}
+  constructor(private service: ServicesService) {
+    this.getData()
+  }
 
   ngOnInit(): void {
+  }
+
+  async getData(){
+    this.herbs = (await this.service.getHerb()).documents;
+    this.displayHerbs = [...this.herbs];
   }
 
   checkHerbName(word:string){
@@ -47,6 +56,6 @@ export class SearchpageComponent implements OnInit {
   }
 
   openfilter(){
-    
+
   }
 }
