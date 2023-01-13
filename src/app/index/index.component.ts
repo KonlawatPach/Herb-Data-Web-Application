@@ -21,6 +21,6 @@ export class IndexComponent implements OnInit {
     navSpeed: 700,
     items: 1,
     autoplay: true,
-    autoplaySpeed: 500
+    autoplaySpeed: 500,
   }
 }
