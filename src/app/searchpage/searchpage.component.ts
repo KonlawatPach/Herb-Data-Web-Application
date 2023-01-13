@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { herb_data } from '../herblist';
-import { ServicesService } from '../services/services.service';
-
+import { CrudService } from '../crud.service';
 
 @Component({
   selector: 'app-searchpage',
   templateUrl: './searchpage.component.html',
   styleUrls: ['./searchpage.component.scss']
 })
-
-
 export class SearchpageComponent implements OnInit {
   herbs : any  = herb_data;
   herbs_search_number : number = this.herbs.length;
@@ -19,7 +16,7 @@ export class SearchpageComponent implements OnInit {
   isSearching : boolean = false;
   
 
-  constructor(private service: ServicesService) {
+  constructor(private service: CrudService) {
     this.getData()
   }
 
@@ -58,4 +55,5 @@ export class SearchpageComponent implements OnInit {
   openfilter(){
 
   }
+
 }

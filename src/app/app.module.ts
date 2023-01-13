@@ -1,35 +1,30 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+
+import { RouterModule, Route } from '@angular/router';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import { CarouselModule } from 'ngx-owl-carousel-o';
-// import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Route } from '@angular/router';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { SearchpageComponent } from './searchpage/searchpage.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { HerbBoxComponent } from './searchpage/herb-box/herb-box.component';
 import { IndexComponent } from './index/index.component';
+import { SearchpageComponent } from './searchpage/searchpage.component';
+import { HerbBoxComponent } from './searchpage/herb-box/herb-box.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchpageComponent,
-    NavbarComponent,
-    HerbBoxComponent,
     IndexComponent,
+    SearchpageComponent,
+    HerbBoxComponent,
+    NavbarComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    // BrowserAnimationsModule,
-    // CarouselModule
+    CarouselModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
