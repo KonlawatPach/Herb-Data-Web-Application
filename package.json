@@ -21,8 +21,12 @@
     "axios": "^1.2.2",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "jquery": "^3.6.3",
     "mongodb": "^4.13.0",
     "mongoose": "^6.8.3",
+    "ngx-owl-carousel-o": "^15.0.0",
+    "ngx-toastr": "^14.3.0",
+    "owl.carousel": "^2.3.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
