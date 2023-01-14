@@ -7,16 +7,16 @@
     </div>
     
     <ul>
-        <li><a (click)="linkto('')" [class.a-hover]="nowpath==''">
+        <li><a routerLink="/" [class.a-hover]="nowpath=='' || nowpath=='/'">
             หน้าหลัก
         </a></li>
-        <li><a (click)="linkto('search')" [class.a-hover]="nowpath=='/search'">
+        <li><a routerLink="/search" [class.a-hover]="nowpath=='/search'">
             ค้นหาสมุนไพร
         </a></li>
-        <li><a (click)="linkto('login')">
+        <li><a routerLink="/login">
             สำหรับผู้เชี่ยวชาญ
         </a></li>
-        <li><a (click)="linkto('login')" [class.a-hover]="nowpath=='/admin'">
+        <li><a routerLink="/login" [class.a-hover]="nowpath=='/admin'">
             สำหรับผู้ดูแล
         </a></li>
     </ul>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
@@ -13,15 +13,14 @@ export class NavbarComponent implements OnInit {
   constructor(
     public location: Location,
     public router: Router
-  ) { }
+  ) { 
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        this.nowpath = this.location.path();
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.nowpath = this.location.path();
   }
-
-  linkto(path:string){
-    this.nowpath = '/' + path;
-    this.router.navigate(['/' + path]);
-  }
-
 }

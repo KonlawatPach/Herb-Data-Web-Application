@@ -20,10 +20,16 @@ export class SearchpageComponent implements OnInit {
 
   constructor(private herbs_session: HerbSessionService) {
   }
+
   async ngOnInit(){
     this.herbs = await this.herbs_session.getHerbs();
     this.displayHerbs = [...this.herbs];
-    this.herbs_search_number = this.displayHerbs.length
+    this.herbs_search_number = this.displayHerbs.lengthว
+
+    if(sessionStorage.getItem("searchwordfromhomepage") != null){
+      this.search(sessionStorage.getItem("searchwordfromhomepage")!);
+      sessionStorage.removeItem("searchwordfromhomepage");
+    }
   }  
 
   checkHerbName(word:string){
@@ -44,6 +50,7 @@ export class SearchpageComponent implements OnInit {
       this.isSearching = true
       this.checkHerbName(word)
       this.compareWord(word);
+      this.searchwordBox.nativeElement.value = word;
     }
     else{
       this.isSearching = false

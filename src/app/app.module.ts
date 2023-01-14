@@ -15,6 +15,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AdminpageComponent } from './adminpage/adminpage.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ToptwelveherbsContainerComponent } from './index/toptwelveherbs-container/toptwelveherbs-container.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { RegisterComponent } from './register/register.component';
     AdminpageComponent,
     LoginComponent,
     RegisterComponent,
+    ToptwelveherbsContainerComponent,
   ],
   imports: [
     BrowserModule,
