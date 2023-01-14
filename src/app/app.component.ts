@@ -8,16 +8,21 @@ import { herb_data } from './herblist';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  herbs = herb_data;
+  showappNavbar = true;
+  loadFinish = false;
 
   constructor(private service: CrudService){
-    this.getData();
+    if(sessionStorage.getItem('herbs') == null){
+      // this.getData();
+      sessionStorage.setItem('herbs', JSON.stringify(herb_data));
+    }
+    this.loadFinish = true;
   }
   ngOnInit(): void {
   }
 
   async getData(){
-    this.herbs = (await this.service.getHerb()).documents; 
+    let document = (await this.service.getHerb()).documents; 
   }
 
   

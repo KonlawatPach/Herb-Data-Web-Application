@@ -53,9 +53,10 @@
                 font-weight: 500;
                 background-color: rgba(21, 98, 0, 0);
                 color: black;
+                cursor: pointer;
             }
 
-            a:hover{
+            a:hover, .a-hover{
                 background-color: rgb(21, 98, 0);
                 color: white;
             }

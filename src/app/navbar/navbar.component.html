@@ -7,9 +7,17 @@
     </div>
     
     <ul>
-        <li><a routerLink="">หน้าหลัก</a></li>
-        <li><a routerLink="search">ค้นหาสมุนไพร</a></li>
-        <li><a routerLink="login">สำหรับผู้เชี่ยวชาญ</a></li>
-        <li><a routerLink="login">สำหรับผู้ดูแล</a></li>
+        <li><a (click)="linkto('')" [class.a-hover]="nowpath==''">
+            หน้าหลัก
+        </a></li>
+        <li><a (click)="linkto('search')" [class.a-hover]="nowpath=='/search'">
+            ค้นหาสมุนไพร
+        </a></li>
+        <li><a (click)="linkto('login')">
+            สำหรับผู้เชี่ยวชาญ
+        </a></li>
+        <li><a (click)="linkto('login')" [class.a-hover]="nowpath=='/admin'">
+            สำหรับผู้ดูแล
+        </a></li>
     </ul>
 </div>

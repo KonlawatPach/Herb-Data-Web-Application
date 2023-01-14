@@ -1,10 +1,15 @@
-<div class="app-component">
-    <!-- <div class="lds-default loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> -->
-    <app-navbar></app-navbar>
-    <div style="height: 62px;"></div>
-    <app-index></app-index>
-    <app-searchpage [herbs]="herbs"></app-searchpage>
-    <router-outlet></router-outlet>
+<div class="app-component">   
+    <app-navbar *ngIf="showappNavbar"></app-navbar>
+    <div *ngIf="showappNavbar" style="height: 62px;"></div>
+
+    <div class="loading-circle" *ngIf="!loadFinish">
+      <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <h2>กำลังโหลดข้อมูล โปรดรอสักครู่..</h2>
+    </div>
+    <div *ngIf="loadFinish">
+      <router-outlet></router-outlet>
+    </div>
+    
 </div>
 
 

@@ -22,5 +22,10 @@ export class IndexComponent implements OnInit {
     items: 1,
     autoplay: true,
     autoplaySpeed: 500,
+    responsive:{
+      0: {
+        items:1
+      }
+    }
   }
 }
