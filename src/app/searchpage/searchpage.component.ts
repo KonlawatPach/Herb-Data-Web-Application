@@ -43,12 +43,14 @@ export class SearchpageComponent implements OnInit {
     if(word != "" && this.wordSearching != word){
       this.isSearching = true
       this.checkHerbName(word)
+      this.compareWord(word);
     }
     else{
       this.isSearching = false
       this.wordSearching = "";
       this.displayHerbs = [...this.herbs]
       this.searchwordBox.nativeElement.value = '';
+      this.compareWord('');
     }
   }
 

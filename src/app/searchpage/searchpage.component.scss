@@ -92,15 +92,19 @@
         }
     }
     .herb-displays{
-        display: flex;
-        flex-direction: column;
         text-align: center;
-        align-items: center;
 
         p{
-            margin: 0;
+            margin: 0 0 10px 0;
             font-size: 14px;
             font-weight: 200;
+        }
+        
+        .herb-display-list{
+            display: grid;
+            grid-template-columns: repeat(3, 260px);
+            gap: 20px;
+            justify-content: center;
         }
     }
 }

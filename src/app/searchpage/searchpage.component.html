@@ -28,9 +28,10 @@
             <span *ngIf="displayHerbs.length<=0">ไม่พบผลลัพธ์การค้นหา </span>
             <span *ngIf="isSearching">จากคำค้นหา "{{wordSearching}}"</span>
         </p>
-
-        <div *ngFor="let herb of displayHerbs">
-            <app-herb-box [herb]="herb"></app-herb-box>
+        <div class="herb-display-list">
+            <div *ngFor="let herb of displayHerbs">
+                <app-herb-box [herb]="herb"></app-herb-box>
+            </div>
         </div>
     </div>
 </div>
