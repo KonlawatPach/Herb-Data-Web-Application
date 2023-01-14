@@ -11,6 +11,9 @@ import { IndexComponent } from './index/index.component';
 import { SearchpageComponent } from './searchpage/searchpage.component';
 import { HerbBoxComponent } from './searchpage/herb-box/herb-box.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AdminpageComponent } from './adminpage/adminpage.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     SearchpageComponent,
     HerbBoxComponent,
     NavbarComponent,
+    AdminpageComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { CrudService } from './crud.service';
+import { herb_data } from './herblist';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,17 @@ import { OwlOptions } from 'ngx-owl-carousel-o';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'thai_herb';
+  herbs = herb_data;
+
+  constructor(private service: CrudService){
+    this.getData();
+  }
+  ngOnInit(): void {
+  }
+
+  async getData(){
+    this.herbs = (await this.service.getHerb()).documents; 
+  }
+
+  
 }

@@ -1,10 +1,15 @@
 <div class="search-container">
     <div class="search-menu">
+        <div></div>
+        <h3 class="title">สมุนไพรยอดนิยม</h3>
         <div class="search-bar">
-            <input #searchword (keydown.enter)="search(searchword.value); searchword.value = ''">
-            <button (click)="search(searchword.value); searchword.value = ''" class="search-button">
-                <img src="assets/magnifying-glass.svg" alt="magnifying-glass">
-            </button>
+            <div class="floating">
+                <button (click)="search(searchword.value)" class="search-button">
+                    <img src="assets/magnifying-glass.svg" alt="magnifying-glass">
+                </button>
+            </div>
+            <input #searchword (keydown.enter)="search(searchword.value)">
+            
             <button (click)="openfilter();" class="filter-button">
                 <p>filter</p>
                 <img src="assets/filter-icon.svg" alt="filter">

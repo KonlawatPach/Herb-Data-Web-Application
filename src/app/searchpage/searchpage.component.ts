@@ -1,6 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { herb_data } from '../herblist';
-import { CrudService } from '../crud.service';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-searchpage',
@@ -8,25 +6,24 @@ import { CrudService } from '../crud.service';
   styleUrls: ['./searchpage.component.scss']
 })
 export class SearchpageComponent implements OnInit {
-  herbs : any  = herb_data;
-  herbs_search_number : number = this.herbs.length;
+  @Input() herbs : any  = [];
+  herbs_search_number : number = 0;
 
-  displayHerbs : any = [...this.herbs];
+  displayHerbs : any = [];
   wordSearching : string = "";
   isSearching : boolean = false;
   
 
-  constructor(private service: CrudService) {
-    this.getData()
+  constructor() {
+    
   }
 
   ngOnInit(): void {
+    this.displayHerbs = [...this.herbs];
+    this.herbs_search_number = this.displayHerbs.length
   }
 
-  async getData(){
-    this.herbs = (await this.service.getHerb()).documents;
-    this.displayHerbs = [...this.herbs];
-  }
+  
 
   checkHerbName(word:string){
     this.wordSearching = word;

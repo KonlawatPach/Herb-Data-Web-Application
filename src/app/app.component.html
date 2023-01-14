@@ -1,8 +1,9 @@
 <div class="app-component">
     <!-- <div class="lds-default loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> -->
     <app-navbar></app-navbar>
+    <div style="height: 62px;"></div>
     <app-index></app-index>
-    <app-searchpage></app-searchpage>
+    <app-searchpage [herbs]="herbs"></app-searchpage>
     <router-outlet></router-outlet>
 </div>
 
