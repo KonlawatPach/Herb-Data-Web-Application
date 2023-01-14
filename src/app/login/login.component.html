@@ -1,1 +1,29 @@
-<p>login works!</p>
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-header">
+            <a routerLink="/">
+                <img src="/assets/back-arrow.svg" alt="back">
+            </a>
+            <h1>ลงชื่อเข้าใช้</h1>
+            <div></div>
+        </div>
+        <div class="login-body">
+            <p>
+                <span>Username : </span>
+                <input type="email">
+            </p>
+            <p>
+                <span>Password : </span>
+                <input type="password">
+            </p>
+            <button 
+                class="login"
+                (mouseenter)="evading()"
+                (click)="clicking()"
+                [class.left]="x==-1"
+                [class.right]="x==1"
+            >Login</button>
+            <!-- <button class="register">Register</button> -->
+        </div>
+    </div>
+</div>

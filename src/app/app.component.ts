@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { CrudService } from './services/crud.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { HerbSessionService } from './services/herb-session.service';
 
 @Component({
@@ -11,8 +12,17 @@ export class AppComponent {
   showappNavbar = true;
   loadFinish = false;
 
-  constructor(private service: HerbSessionService){
+  constructor(
+    private service: HerbSessionService,
+    public location: Location,
+    public router: Router
+  ){
     this.loadData();
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        this.checkcloseNav(location.path());
+      }
+    });
   }
 
   async loadData(){
@@ -21,5 +31,14 @@ export class AppComponent {
   }
 
   ngOnInit(): void {
-  } 
+  }
+
+  checkcloseNav(path: string){
+    if(path == "/login" || path == "/register"){
+      this.showappNavbar = false;
+    }
+    else{
+      this.showappNavbar = true;
+    }
+  }
 }

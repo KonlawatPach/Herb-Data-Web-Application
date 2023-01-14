@@ -22,5 +22,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.nowpath = this.location.path();
   }
 }
