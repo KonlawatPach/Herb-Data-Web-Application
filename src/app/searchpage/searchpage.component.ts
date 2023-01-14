@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { HerbSessionService } from '../services/herb-session.service';
 
 @Component({
   selector: 'app-searchpage',
@@ -6,24 +7,24 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./searchpage.component.scss']
 })
 export class SearchpageComponent implements OnInit {
-  @Input() herbs : any  = [];
+  @ViewChild('searchword') searchwordBox: any;
+  herbs : any  = [];
   herbs_search_number : number = 0;
 
   displayHerbs : any = [];
   wordSearching : string = "";
+  
   isSearching : boolean = false;
+  showMagnifyingGlass : boolean = true;
   
 
-  constructor() {
-    
+  constructor(private herbs_session: HerbSessionService) {
   }
-
-  ngOnInit(): void {
+  async ngOnInit(){
+    this.herbs = await this.herbs_session.getHerbs();
     this.displayHerbs = [...this.herbs];
     this.herbs_search_number = this.displayHerbs.length
-  }
-
-  
+  }  
 
   checkHerbName(word:string){
     this.wordSearching = word;
@@ -38,14 +39,25 @@ export class SearchpageComponent implements OnInit {
   }
 
   search(word:string){
-    if(word.replace(" ", "") != ""){
-      word = word.replace(" ", "")
+    word = word.replace(" ", "")
+    if(word != "" && this.wordSearching != word){
       this.isSearching = true
       this.checkHerbName(word)
     }
     else{
       this.isSearching = false
+      this.wordSearching = "";
       this.displayHerbs = [...this.herbs]
+      this.searchwordBox.nativeElement.value = '';
+    }
+  }
+
+  compareWord(word:string){
+    word = word.replace(" ", "");
+    if((this.isSearching && word == this.wordSearching) || (word == "" && this.wordSearching != "" && this.isSearching)){
+      this.showMagnifyingGlass = false;
+    }else{
+      this.showMagnifyingGlass = true;
     }
   }
 

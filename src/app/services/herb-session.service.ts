@@ -15,6 +15,7 @@ export class HerbSessionService {
       // sessionStorage.setItem('herbs', JSON.stringify(herb_data));
       sessionStorage.setItem('herbs', JSON.stringify(document));
 
+        
       return document;
     }else{
       return JSON.parse(herbs);
