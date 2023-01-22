@@ -24,7 +24,7 @@ export class SearchpageComponent implements OnInit {
   async ngOnInit(){
     this.herbs = await this.herbs_session.getHerbs();
     this.displayHerbs = [...this.herbs];
-    this.herbs_search_number = this.displayHerbs.lengthว
+    this.herbs_search_number = this.displayHerbs.length
 
     if(sessionStorage.getItem("searchwordfromhomepage") != null){
       this.search(sessionStorage.getItem("searchwordfromhomepage")!);

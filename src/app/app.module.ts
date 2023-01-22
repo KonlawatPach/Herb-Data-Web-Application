@@ -16,6 +16,7 @@ import { AdminpageComponent } from './adminpage/adminpage.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ToptwelveherbsContainerComponent } from './index/toptwelveherbs-container/toptwelveherbs-container.component';
+import { HerbDetailComponent } from './herb-detail/herb-detail.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ToptwelveherbsContainerComponent } from './index/toptwelveherbs-contain
     LoginComponent,
     RegisterComponent,
     ToptwelveherbsContainerComponent,
+    HerbDetailComponent,
   ],
   imports: [
     BrowserModule,
