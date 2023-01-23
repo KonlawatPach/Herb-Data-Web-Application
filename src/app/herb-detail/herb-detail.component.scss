@@ -1,28 +1,90 @@
 .details-container{
     margin-top: 62px;
     background-color: white;
-    margin-left: auto;
-    margin-right: auto;
     display: flex;
+    margin-inline: auto;
     flex-direction: column;
     align-items: center;
-    width: 70%;
+    width: 860px;
     border-radius: 20px;
     border: 1px black solid;
+    padding: 20px;
+
+    h3{
+        font-weight: 600;
+        text-indent: 10px;
+        margin: 10px 0 0 0;
+    }
+    b, p, li, td{
+        font-size: 14px;
+    }
+    ul, ol{
+        margin: 4px 0 0 0;
+        font-weight: 500;
+        li{
+            text-indent: 0;
+            font-weight: 400;
+        }
+    }
 
     .title-details{
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
+        gap: 10px;
+        width: 860px;
+        border-radius: 20px 20px 0 0 ;
+
+        .title{
+            width: 100%;
+            margin: 0 0 10px 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .title-img{
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+
+            img{
+                object-fit: cover;
+                border-radius: 20px;
+                width: 400px;
+
+            }
+
+            table{
+                width: 260px;
+                border-collapse: collapse;
+
+                th{
+                    font-weight: 500;
+                }
+                tr{
+                    border-top: 1px rgb(6, 85, 0) solid;
+                    border-bottom: 1px rgb(6, 85, 0) solid;
+                }
+            }
+        }
+    }
+    
+    .body-details{
+        width: 860px;
+        margin-top: 20px;
+
+        b{
+            font-weight: 500;
+
+            span{
+                font-weight: 400;
+            }
+        }
+        p{
+            margin: 0;
+        }
+        .description{
+            text-indent: 40px;
+        }
         width: 100%;
-
-        h2{
-
-        }
-
-        img{
-            object-fit: cover;
-            width: 300px;
-            height: 300px;
-        }
     }
 }

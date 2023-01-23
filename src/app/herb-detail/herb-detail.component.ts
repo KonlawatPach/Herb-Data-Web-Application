@@ -11,6 +11,7 @@ export class HerbDetailComponent implements OnInit {
   finishLoading : boolean = false;
   herb : any;
   herbpath : string = '';
+  scienceName : string = '';
 
   constructor(
     private location: Location,
@@ -25,6 +26,20 @@ export class HerbDetailComponent implements OnInit {
     this.herb = herbs.filter((obj:any) => {
       return obj.nameTH == this.herbpath
     })[0];
+
+    this.herb.botanic_propertie = this.herb.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
+    this.herb.biology = this.herb.biology.map((obj:any) => Object.entries(obj));
+
+    let titleCaseSuffig = ''
+    if(this.herb.biology[this.herb.biology.length-1][2][1].split(/\s+/).length>1){
+      titleCaseSuffig = this.herb.biology[this.herb.biology.length-1][2][1].split(/\s+/)[1]
+      titleCaseSuffig = titleCaseSuffig[0].toUpperCase() + titleCaseSuffig.slice(1).toLowerCase();
+    }
+    else{
+      titleCaseSuffig = this.herb.biology[this.herb.biology.length-1][2][1].slice(0, 1).toUpperCase()+this.herb.biology[this.herb.biology.length-1][2][1].slice(1).toLowerCase();
+    }
+    this.scienceName = `${this.herb.biology[this.herb.biology.length-2][2][1]} ${titleCaseSuffig}`;
+
     this.finishLoading = true;
   }
 

@@ -1,6 +1,51 @@
 <div class="details-container" *ngIf="finishLoading">
     <div class="title-details">
-        <h2>{{herb.nameTH}}</h2>
-        <img src="{{herb.picture}}" alt="{{herb.nameTH}}">
+        <h2 class="title">{{herb.nameTH}} ({{herb._id}})</h2>
+        <div class="title-img">
+            <img src="{{herb.picture}}" alt="{{herb.nameTH}}">
+            <table>
+                <tr>
+                    <th colspan="2">ลำดับชั้นทางวิทยาศาสตร์</th>
+                </tr>
+                <tr *ngFor="let bio of herb.biology">
+                    <td>{{bio[1][1]}}: </td>
+                    <td>{{bio[2][1]}}</td>
+                </tr>
+                <tr>
+                    <th colspan="2">{{scienceName}}</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="body-details">
+        <p class="description">{{herb.description}}</p>
+        <h3 *ngIf="herb.botanic_propertie.length > 0">ลักษณะของสมุนไพร</h3>
+        <ul>
+            <li *ngFor="let botanic of herb.botanic_propertie">
+                <b>{{botanic[0]}} : </b>
+                <span>{{botanic[1]}}</span>
+            </li>
+        </ul>
+
+        <h3 *ngIf="herb.propertie.length > 0">สรรพคุณของ{{herb.nameTH}}</h3>
+        <ol>
+            <li *ngFor="let p of herb.propertie">{{p}}</li>
+        </ol>
+
+        <h3 *ngIf="herb.substance.length > 0">คุณสมบัติทางเคมีของ{{herb.nameTH}}</h3>
+        <ul>
+            <li *ngFor="let s of herb.substance">{{s}}</li>
+        </ul>
+
+        <h3 *ngIf="herb.side_effect.length > 0">ผลข้างเคียงของ{{herb.nameTH}}</h3>
+        <ul>
+            <li *ngFor="let s of herb.side_effect">{{s}}</li>
+        </ul>
+
+        <h3 *ngIf="herb.forbiddenperson.length > 0">บุคคลที่ห้ามรับประทานสมุนไพร{{herb.nameTH}}</h3>
+        <ul>
+            <li *ngFor="let f of herb.forbiddenperson">{{f}}</li>
+        </ul>
     </div>
 </div>
