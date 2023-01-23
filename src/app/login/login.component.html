@@ -79,7 +79,7 @@
                         </td>
                     </tr>
                 </table>
-                <button type="submit" class="register-form">Register</button>
+                <button type="submit" [disabled]="isRegister" class="register-form">Register</button>
                 <button type="button" (click)="changePage()" class="cancel">Cancel</button>
             </form>
         </div>

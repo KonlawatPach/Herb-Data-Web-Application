@@ -2,6 +2,7 @@ const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
+clientEncryption = db.getMongo().getClientEncryption()
 
 const app = express();
 app.use(cors());
@@ -44,7 +45,7 @@ app.get('/getherb', async (req, res) => {
 });
 
 app.post('/register', async (req, res) => {
-    //get user data
+    //get user lastID
     var data = {
         "collection": "user",
         "database": "herb_data",
@@ -62,8 +63,10 @@ app.post('/register', async (req, res) => {
         // console.log(error);
     })
 
+    //insert new user
     if(lastID != 'error'){
         let document = await req.body;
+        document['password'] = clientEncryption.encrypt(document.password)
         document['_id'] = pad((Number(lastID)+1).toString(), 8);
         data['document'] = document;
         // console.log(data);

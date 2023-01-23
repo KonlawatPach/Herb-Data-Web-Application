@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CrudService } from '../services/crud.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,7 @@ import { CrudService } from '../services/crud.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  isRegister : boolean = false;
   statePage : string = 'login';
 
   loginForm = this.formBuilder.group({
@@ -23,7 +25,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private crud: CrudService
+    private crud: CrudService,
+    private router: Router
   ) {
 
   }
@@ -37,7 +40,7 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value.password);
     console.log(this.registerForm.value.role)
     if(this.loginForm.valid){
-      
+
       this.loginForm.reset();
       console.log('pass');
     }else{
@@ -45,17 +48,25 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  registerSubmit(): void {
+  async registerSubmit(){
+    this.isRegister = true;
     if(this.registerForm.value.password != this.registerForm.value.confirmpassword){
       console.log("พาสไม่ตรง");
     }
     else if(this.registerForm.valid){
-      this.crud.registerUser(this.registerForm.value.email, this.registerForm.value.password, this.registerForm.value.confirmpassword);
-      this.registerForm.reset();
+      let res = await this.crud.registerUser(this.registerForm.value.email, this.registerForm.value.password, this.registerForm.value.confirmpassword);
+      if(res.status == 'complete'){
+        this.registerForm.reset();
+        this.router.navigate(['/admin']);
+      }
+      else{
+        alert('ลงทะเบียนผิดพลาด')
+      }
     }
     else{
       console.log("กรอกไม่ครบ");
     }
+    this.isRegister = false;
   }
 
   changePage(){
