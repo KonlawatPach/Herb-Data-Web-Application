@@ -2,7 +2,6 @@ const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
-clientEncryption = db.getMongo().getClientEncryption()
 
 const app = express();
 app.use(cors());
@@ -66,7 +65,6 @@ app.post('/register', async (req, res) => {
     //insert new user
     if(lastID != 'error'){
         let document = await req.body;
-        document['password'] = clientEncryption.encrypt(document.password)
         document['_id'] = pad((Number(lastID)+1).toString(), 8);
         data['document'] = document;
         // console.log(data);

@@ -47,14 +47,14 @@ export class LoginComponent implements OnInit {
       
     }
   }
-
+  // "atob" function decode pass 
   async registerSubmit(){
     this.isRegister = true;
     if(this.registerForm.value.password != this.registerForm.value.confirmpassword){
       console.log("พาสไม่ตรง");
     }
     else if(this.registerForm.valid){
-      let res = await this.crud.registerUser(this.registerForm.value.email, this.registerForm.value.password, this.registerForm.value.confirmpassword);
+      let res = await this.crud.registerUser(this.registerForm.value.email, btoa(this.registerForm.value.password), this.registerForm.value.confirmpassword);
       if(res.status == 'complete'){
         this.registerForm.reset();
         this.router.navigate(['/admin']);
