@@ -16,14 +16,19 @@
             grid-template-columns: auto auto auto;
             align-items: center;
             background-color: rgb(12, 61, 0);
-            border-radius: 20px 20px 0 0;
+            border-radius: 18px 18px 0 0;
             padding: 10px 0;
             a{
                 display: flex;
                 align-items: center;
                 justify-content: end;
                 img{
+                    transition: 200ms;
                     width: 30px;
+                }
+                img:hover{
+                    transition: 200ms;
+                    width: 34px;
                 }
             }
 
@@ -36,27 +41,80 @@
         }
 
         .login-body{
+            table{
+                width: 400px;
+                margin-top: 20px;
+                margin-inline: auto;
+                text-align: left;
+
+                tr{
+                    height: 36px;
+                    vertical-align: top;
+                }
+                
+                input[type=email], input[type=password]{
+                    width: 200px;
+                    background-color: white;
+                    border: 1px black solid;
+                    border-radius: 4px;
+                    height: 26px;
+                    padding: 0 10px;
+
+                    font-family: 'Mitr', serif;
+                    font-size: 14px;
+                }
+                input:focus{
+                    outline: none;
+                }
+                .login{
+                    width: 270px !important;
+                }
+
+                .invalid{
+                    border: 2px red solid;
+                }
+
+                .role-box{
+                    display: flex;
+                    flex-direction: column;
+                    div{
+                        display: flex;
+                        flex-direction: row;
+                    }
+                }
+            }
+
+
             button{
                 margin-top: 20px;
                 cursor: pointer;
-                background-color: rgb(5, 47, 0);
+                background-color: rgb(9, 89, 0);
                 width: max-content;
                 font-family: 'Mitr', serif;
-                font-size: 20px;
+                padding: 2px 10px;
+                font-size: 16px;
                 color: white;
+                transition: 200ms;
             }
-            // .register{
-            //     transition: 400ms;
-            //     margin-left: 50px;
-            // }
+            button:hover{
+                transition: 200ms;
+                background-color: rgb(15, 153, 0);
+            }
 
-            .left{
-                transition: 100ms;
-                margin-left: 200px;
+            .register, .cancel{
+                margin-left: 50px;
             }
-            .right{
-                transition: 100ms;
-                margin-right: 200px;
+            .register{
+                background-color: rgb(3, 0, 97);
+            }
+            .register:hover{
+                background-color: rgb(0, 32, 177);
+            }
+            .cancel{
+                background-color: rgb(169, 0, 0);
+            }
+            .cancel:hover{
+                background-color: rgb(234, 0, 0);
             }
         }
     }

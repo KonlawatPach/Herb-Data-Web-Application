@@ -1,5 +1,6 @@
 <div class="login-container">
-    <div class="login-box">
+    <!-- login -->
+    <div *ngIf="statePage == 'login'" class="login-box">
         <div class="login-header">
             <a routerLink="/">
                 <img src="/assets/back-arrow.svg" alt="back">
@@ -8,22 +9,79 @@
             <div></div>
         </div>
         <div class="login-body">
-            <p>
-                <span>Username : </span>
-                <input type="email">
-            </p>
-            <p>
-                <span>Password : </span>
-                <input type="password">
-            </p>
-            <button 
-                class="login"
-                (mouseenter)="evading()"
-                (click)="clicking()"
-                [class.left]="x==-1"
-                [class.right]="x==1"
-            >Login</button>
-            <!-- <button class="register">Register</button> -->
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <table>
+                    <tr>
+                        <td>Email : </td>
+                        <td>
+                            <input class="login" type="email" [class.invalid]="loginForm.controls['username'].invalid && loginForm.controls['username'].touched" placeholder="Example@gmail.com" formControlName="username">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password : </td>
+                        <td>
+                            <input class="login" type="password" [class.invalid]="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" placeholder="password" type="password" formControlName="password">
+                        </td>
+                    </tr>
+                </table>
+                
+                <button type="submit" class="login">Login</button>
+                <button type="button" (click)="changePage()" class="register">Register</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- register -->
+    <div *ngIf="statePage == 'register'" class="login-box">
+        <div class="login-header">
+            <a routerLink="/">
+                <img src="/assets/back-arrow.svg" alt="back">
+            </a>
+            <h1>
+                <span>สมัครเป็นผู้เชี่ยวชาญ</span><br>
+                <span>หรือผู้ดูแลระบบ</span>
+            </h1>
+            <div></div>
+        </div>
+        <div class="login-body">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <table>
+                    <tr>
+                        <td>Email : </td>
+                        <td>
+                            <input type="email" [class.invalid]="registerForm.controls['username'].invalid && registerForm.controls['username'].touched" placeholder="Example@gmail.com" formControlName="username">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password : </td>
+                        <td>
+                            <input type="password" [class.invalid]="registerForm.controls['password'].invalid && registerForm.controls['password'].touched" placeholder="password" type="password" formControlName="password">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Confirm Password : </td>
+                        <td>
+                            <input type="password" [class.invalid]="registerForm.controls['password'].invalid && registerForm.controls['confirmpassword'].touched" placeholder="confirm password" type="password" formControlName="confirmpassword">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ตำแหน่งที่ต้องการสมัคร : </td>
+                        <td class="role-box">
+                            <div>
+                                <input required type="radio" formControlName="role" name="role" value="ผู้เชี่ยวชาญ">
+                                <label>ผู้เชี่ยวชาญ</label>
+                            </div>
+                            <div>
+                                <input type="radio" formControlName="role" name="role" value="ผู้ดูแลระบบ">
+                                <label>ผู้ดูแลระบบ</label>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" class="register-form">Register</button>
+                <button type="button" (click)="changePage()" class="cancel">Cancel</button>
+            </form>
         </div>
     </div>
 </div>

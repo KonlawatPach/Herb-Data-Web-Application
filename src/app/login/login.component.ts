@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -6,25 +7,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public x = 0;
-  public firstclick = false;
+  statePage : string = 'login';
 
-  constructor() { }
+  loginForm = this.formBuilder.group({
+    username: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")] ],
+    password: ['', Validators.required ]
+  });
+  registerForm = this.formBuilder.group({
+    username: ['', [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")] ],
+    password: ['', Validators.required ],
+    confirmpassword: ['', Validators.required ],
+    role: ['']
+  });
+
+  constructor(
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
   }
 
-  clicking(){
-    this.firstclick = true;
-    this.evading();
-  }
-  evading(){
-    if(this.firstclick){
-      if(this.x == 0 || this.x == 1){
-        this.x = -1;
-      }else{
-        this.x = 1;
-      }
+
+  onSubmit(): void {
+    console.log(this.loginForm.value.username);
+    console.log(this.loginForm.value.password);
+    console.log(this.registerForm.value.role)
+    if(this.loginForm.valid){
+      
+      this.loginForm.reset();
+      console.log('pass');
+    }else{
+      
     }
+  }
+
+  changePage(){
+    this.statePage = this.statePage=='login'?'register':'login';
   }
 }
