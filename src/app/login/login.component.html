@@ -9,12 +9,12 @@
             <div></div>
         </div>
         <div class="login-body">
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
                 <table>
                     <tr>
                         <td>Email : </td>
                         <td>
-                            <input class="login" type="email" [class.invalid]="loginForm.controls['username'].invalid && loginForm.controls['username'].touched" placeholder="Example@gmail.com" formControlName="username">
+                            <input class="login" type="email" [class.invalid]="loginForm.controls['email'].invalid && loginForm.controls['email'].touched" placeholder="Example@gmail.com" formControlName="email">
                         </td>
                     </tr>
                     <tr>
@@ -45,12 +45,12 @@
             <div></div>
         </div>
         <div class="login-body">
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="registerForm" (ngSubmit)="registerSubmit()">
                 <table>
                     <tr>
                         <td>Email : </td>
                         <td>
-                            <input type="email" [class.invalid]="registerForm.controls['username'].invalid && registerForm.controls['username'].touched" placeholder="Example@gmail.com" formControlName="username">
+                            <input type="email" [class.invalid]="registerForm.controls['email'].invalid && registerForm.controls['email'].touched" placeholder="Example@gmail.com" formControlName="email">
                         </td>
                     </tr>
                     <tr>
@@ -62,7 +62,7 @@
                     <tr>
                         <td>Confirm Password : </td>
                         <td>
-                            <input type="password" [class.invalid]="registerForm.controls['password'].invalid && registerForm.controls['confirmpassword'].touched" placeholder="confirm password" type="password" formControlName="confirmpassword">
+                            <input type="password" [class.invalid]="registerForm.controls['confirmpassword'].invalid && registerForm.controls['confirmpassword'].touched" placeholder="confirm password" type="password" formControlName="confirmpassword">
                         </td>
                     </tr>
                     <tr>
@@ -73,7 +73,7 @@
                                 <label>ผู้เชี่ยวชาญ</label>
                             </div>
                             <div>
-                                <input type="radio" formControlName="role" name="role" value="ผู้ดูแลระบบ">
+                                <input required type="radio" formControlName="role" name="role" value="ผู้ดูแลระบบ">
                                 <label>ผู้ดูแลระบบ</label>
                             </div>
                         </td>

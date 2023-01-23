@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -51,19 +51,19 @@ export class CrudService {
     // );
   }
 
-  async test(){
-    // const uri = "mongodb+srv://KonlawatPach:ppaacchh2543@cluster0.ufqqckp.mongodb.net/?retryWrites=true&w=majority";
-    // const client = new MongoClient(uri)
-    // const dbName = 'herb_lists';
-
-    // // Use connect method to connect to the server
-    // await client.connect();
-    // console.log('Connected successfully to server');
-    // const db = client.db(dbName);
-    // const collection = db.collection('herb_data');
-
-    // // the following code examples can be pasted here...
-
-    // return collection;
+  async registerUser(email:string, password:string, role:string){
+    var body = JSON.stringify({
+      "email" : email,
+      "password" : password,
+      "role" : role
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept' : 'application/json'
+      })
+    };
+    const url = "http://localhost:9000/register";
+    return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 }

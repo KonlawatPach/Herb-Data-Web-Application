@@ -16,7 +16,6 @@ import { HerbBoxComponent } from './searchpage/herb-box/herb-box.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AdminpageComponent } from './adminpage/adminpage.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { ToptwelveherbsContainerComponent } from './index/toptwelveherbs-container/toptwelveherbs-container.component';
 import { HerbDetailComponent } from './herb-detail/herb-detail.component';
 
@@ -29,7 +28,6 @@ import { HerbDetailComponent } from './herb-detail/herb-detail.component';
     NavbarComponent,
     AdminpageComponent,
     LoginComponent,
-    RegisterComponent,
     ToptwelveherbsContainerComponent,
     HerbDetailComponent,
   ],
