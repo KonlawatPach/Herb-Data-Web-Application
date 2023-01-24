@@ -43,6 +43,26 @@ app.get('/getherb', async (req, res) => {
     res.status(200).end();
 });
 
+app.post('/updateherb', async (req, res) => {
+    
+});
+
+
+//USER DATA//
+app.get('/getalluser', async (req, res) => {
+    var data = JSON.stringify({
+        "collection": "user",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+    });
+
+    res.send(
+        await axios(request('post', data, 'find')).then((response) => response.data)
+        .catch((error) => console.log(error))
+    );
+    res.status(200).end();
+});
+
 app.post('/register', async (req, res) => {
     //get user lastID
     var data = {
@@ -66,6 +86,7 @@ app.post('/register', async (req, res) => {
     if(lastID != 'error'){
         let document = await req.body;
         document['_id'] = pad((Number(lastID)+1).toString(), 8);
+        document['userstatus'] = 'request';
         data['document'] = document;
         // console.log(data);
         await axios(request('post', data, 'insertOne')).then((response) => {
@@ -79,6 +100,64 @@ app.post('/register', async (req, res) => {
     }
     res.status(200).end();
 });
+
+app.post('/confirmuser', async (req, res) => {
+    let nowemail = await req.body['email'];
+    var data = JSON.stringify({
+        "collection": "user",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+        "filter": {
+            "email" : nowemail
+        },
+        "update": { "$set": { "userstatus": 'confirm' } }
+    });
+    await axios(request('post', data, 'updateOne')).then((response) => {
+        getdata = response.data
+        res.send(getdata);
+    })
+    .catch((error) => {
+        res.send(error);
+    })
+    res.status(200).end();
+});
+
+app.post('/login', async (req, res) => {
+    let nowemail = await req.body['email'];
+    let nowpassword = await req.body['password'];
+
+    //get user lastID
+    var data = JSON.stringify({
+        "collection": "user",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+        "filter": {
+            "email" : nowemail
+        }
+    });
+    var getdata = {}
+    await axios(request('post', data, 'findOne')).then((response) => {
+        getdata = response.data.document
+        console.log(getdata);
+    })
+    .catch((error) => {
+        lastID = 'error';
+    })
+
+    //check user
+    if(getdata.email == nowemail && atob(getdata.password) == nowpassword){
+        getdata['status'] = 'complete'
+        res.send(getdata);
+    }else{
+        res.send({'status': 'invalid email or password'});
+    }
+    res.status(200).end();
+});
+
+app.post('/checkstatuslogin', async (req, res) => {
+    
+});
+
 
 app.listen(9000, () => {
     console.log('Application is running on port 9000');
