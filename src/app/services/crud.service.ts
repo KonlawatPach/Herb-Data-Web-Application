@@ -30,25 +30,11 @@ export class CrudService {
     // return this.http.post(url, body, httpOptions).subscribe();
     const url = "http://localhost:9000/getherb";
     return await this.http.get<any>(url).toPromise();
-    
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // return from( 
-    //   fetch(
-    //     "https://data.mongodb-api.com/app/data-ijktw/endpoint/data/v1/action/findOne",
-    //     {
-    //       body: JSON.stringify(body),
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //         'Access-Control-Request-Headers': '*',
-    //         'api-key': 'pBBxWErJ10vtVXKQTqnPpzsud688MlnMvkBSYiWW93vSBVLBDGD1OtpsqWcvTjDt',
-    //         'Accept' : 'application/json'
-    //       },
-    //       method: 'post',
-    //       mode: 'no-cors'
-    //     }
-    //   )
-    // );
+  }
+  
+  async getUser(){
+    const url = "http://localhost:9000/getalluser";
+    return await this.http.get<any>(url).toPromise();
   }
 
   async registerUser(email:string, password:string, role:string){
@@ -64,6 +50,21 @@ export class CrudService {
       })
     };
     const url = "http://localhost:9000/register";
+    return await this.http.post<any>(url, body, httpOptions).toPromise();
+  }
+
+  async loginUser(email:string, password:string){
+    var body = JSON.stringify({
+      "email" : email,
+      "password" : password
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept' : 'application/json'
+      })
+    };
+    const url = "http://localhost:9000/login";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 }

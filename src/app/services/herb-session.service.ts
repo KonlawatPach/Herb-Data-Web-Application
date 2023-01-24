@@ -11,7 +11,7 @@ export class HerbSessionService {
   async getHerbs(){
     let herbs = sessionStorage.getItem('herbs');
     if(herbs == null){
-      let document = (await this.crud.getHerb()).documents; 
+      let document = (await this.crud.getHerb()); 
       // sessionStorage.setItem('herbs', JSON.stringify(herb_data));
       sessionStorage.setItem('herbs', JSON.stringify(document));
 
@@ -21,6 +21,4 @@ export class HerbSessionService {
       return JSON.parse(herbs);
     }
   }
-
-
 }

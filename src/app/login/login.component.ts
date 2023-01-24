@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   isRegister : boolean = false;
+  isLogin : boolean = false;
   statePage : string = 'login';
 
   loginForm = this.formBuilder.group({
@@ -35,17 +36,22 @@ export class LoginComponent implements OnInit {
   }
 
 
-  loginSubmit(): void {
-    console.log(this.loginForm.value.email);
-    console.log(this.loginForm.value.password);
-    console.log(this.registerForm.value.role)
+  async loginSubmit(){
+    this.isLogin = true;
     if(this.loginForm.valid){
-
-      this.loginForm.reset();
-      console.log('pass');
-    }else{
-      
+      let res = await this.crud.loginUser(this.loginForm.value.email, this.loginForm.value.password);
+      if(res.status == 'complete'){
+        this.loginForm.reset();
+        this.router.navigate(['/admin']);
+      }
+      else{
+        alert('login ไม่สำเร็จ')
+      }
     }
+    else{
+      console.log("กรอกไม่ครบ");
+    }
+    this.isLogin = false;
   }
   // "atob" function decode pass 
   async registerSubmit(){

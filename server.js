@@ -37,7 +37,7 @@ app.get('/getherb', async (req, res) => {
     });
 
     res.send(
-        await axios(request('post', data, 'find')).then((response) => response.data)
+        await axios(request('post', data, 'find')).then((response) => response.data.documents)
         .catch((error) => console.log(error))
     );
     res.status(200).end();
@@ -57,7 +57,7 @@ app.get('/getalluser', async (req, res) => {
     });
 
     res.send(
-        await axios(request('post', data, 'find')).then((response) => response.data)
+        await axios(request('post', data, 'find')).then((response) => response.data.documents)
         .catch((error) => console.log(error))
     );
     res.status(200).end();
@@ -141,11 +141,11 @@ app.post('/login', async (req, res) => {
         console.log(getdata);
     })
     .catch((error) => {
-        lastID = 'error';
+        console.log(error);
     })
 
     //check user
-    if(getdata.email == nowemail && atob(getdata.password) == nowpassword){
+    if(getdata != null && getdata.email == nowemail && atob(getdata.password) == nowpassword){
         getdata['status'] = 'complete'
         res.send(getdata);
     }else{

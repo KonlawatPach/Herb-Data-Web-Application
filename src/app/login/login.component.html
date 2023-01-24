@@ -25,8 +25,8 @@
                     </tr>
                 </table>
                 
-                <button type="submit" class="login">Login</button>
-                <button type="button" (click)="changePage()" class="register">Register</button>
+                <button type="submit" [disabled]="isLogin" class="login">Login</button>
+                <button type="button" [disabled]="isLogin" (click)="changePage()" class="register">Register</button>
             </form>
         </div>
     </div>
@@ -80,7 +80,7 @@
                     </tr>
                 </table>
                 <button type="submit" [disabled]="isRegister" class="register-form">Register</button>
-                <button type="button" (click)="changePage()" class="cancel">Cancel</button>
+                <button type="button" [disabled]="isRegister" (click)="changePage()" class="cancel">Cancel</button>
             </form>
         </div>
     </div>
