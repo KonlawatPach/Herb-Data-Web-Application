@@ -67,4 +67,34 @@ export class CrudService {
     const url = "http://localhost:9000/login";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
+
+  async acceptUser(email:string){
+    var body = JSON.stringify({
+      "email" : email
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept' : 'application/json'
+      })
+    };
+    const url = "http://localhost:9000/confirmuser";
+    return await this.http.post<any>(url, body, httpOptions).toPromise();
+  }
+
+  async deleteUser(email:string){
+    var body = JSON.stringify({
+      "email" : email
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept' : 'application/json'
+      })
+    };
+    const url = "http://localhost:9000/deleteuser";
+    return await this.http.post<any>(url, body, httpOptions).toPromise();
+  }
+
+
 }

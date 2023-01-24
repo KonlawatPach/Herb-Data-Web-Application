@@ -122,6 +122,26 @@ app.post('/confirmuser', async (req, res) => {
     res.status(200).end();
 });
 
+app.post('/deleteuser', async (req, res) => {
+    let nowemail = await req.body['email'];
+    var data = JSON.stringify({
+        "collection": "user",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+        "filter": {
+            "email" : nowemail
+        }
+    });
+    await axios(request('post', data, 'deleteOne')).then((response) => {
+        getdata = response.data
+        res.send(getdata);
+    })
+    .catch((error) => {
+        res.send(error);
+    })
+    res.status(200).end();
+});
+
 app.post('/login', async (req, res) => {
     let nowemail = await req.body['email'];
     let nowpassword = await req.body['password'];

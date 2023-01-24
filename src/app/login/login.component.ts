@@ -60,10 +60,11 @@ export class LoginComponent implements OnInit {
       console.log("พาสไม่ตรง");
     }
     else if(this.registerForm.valid){
-      let res = await this.crud.registerUser(this.registerForm.value.email, btoa(this.registerForm.value.password), this.registerForm.value.confirmpassword);
+      let role = this.registerForm.value.role=='ผู้เชี่ยวชาญ'?'professional':'admin';
+      let res = await this.crud.registerUser(this.registerForm.value.email, btoa(this.registerForm.value.password), role);
       if(res.status == 'complete'){
         this.registerForm.reset();
-        this.router.navigate(['/admin']);
+        this.router.navigate(['']);
       }
       else{
         alert('ลงทะเบียนผิดพลาด')
