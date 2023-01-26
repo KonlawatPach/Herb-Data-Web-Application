@@ -16,9 +16,15 @@
         <li *ngIf="profile == ''"><a routerLink="/login">
             ลงชื่อเข้าสู่ระบบ
         </a></li>
-        <li *ngIf="profile != ''" class="profile" (click)="logout()">
+        <li *ngIf="profile != ''" class="profile">
             <span>{{profile}}</span>
             <img src="assets/back-arrow.svg">
+            <div class="floating_dropdown">
+                <ul>
+                    <li (click)="logout()">ออกจากระบบ</li>
+                    <!-- <li (click)="logout()">อื่นๆ</li> -->
+                </ul>
+            </div>
         </li>
     </ul>
 </div>

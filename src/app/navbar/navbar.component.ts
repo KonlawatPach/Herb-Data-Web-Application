@@ -10,7 +10,6 @@ import { AuthenticationService } from '../services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   nowpath = "";
-  isAuthen = false;
   public profile = '';
 
   constructor(
@@ -31,8 +30,7 @@ export class NavbarComponent implements OnInit {
   }
 
   checkAuth(){
-    this.isAuthen = this.auth.isloggedIn;
-    if(this.isAuthen){
+    if(this.auth.isloggedIn){
       this.profile = atob(this.auth.getCurrentUser);
       if(this.profile.endsWith('admin')) this.profile = this.profile.slice(0, this.profile.length-5);
       else if(this.profile.endsWith('professional')) this.profile = this.profile.slice(0, this.profile.length-12)
@@ -43,6 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(){
+    alert('ลงชื่อออกจากระบบสำเร็จ');
     this.auth.logout();
   }
 }

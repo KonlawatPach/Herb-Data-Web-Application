@@ -83,12 +83,42 @@
                 filter: invert(100%);
                 margin-top: 4px;
             }
+            .floating_dropdown{
+                display: none;
+            }
         }
         .profile:hover{
             background-color: rgb(21, 98, 0);
             color: white;
             img{
                 filter: invert(0);
+            }
+            .floating_dropdown{
+                display: block;
+                position: absolute;
+                width: 0;
+                height: 0;
+                ul{
+                    width: max-content;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                    right: 50px;
+                    top: 18px;
+                    gap: 0;
+
+                    li{
+                        width: 209px;
+                        background-color: rgb(255, 255, 255);
+                        padding: 4px 0;
+                        border-radius: 20px;
+                        color: black;
+                    }
+                    li:hover{
+                        background-color: rgb(26, 122, 0);
+                        color: rgb(255, 255, 255);
+                    }
+                }
             }
         }
     }
