@@ -4,7 +4,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
 export class AuthGuard implements CanActivate {  
     constructor(private _router: Router) { }  
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {  
-        if (localStorage.getItem('currentUser')) {  
+        if (localStorage.getItem('currentUser') !== null && atob(localStorage.getItem('currentUser')!).endsWith('admin')) {  
             return true;  
         }  
         this._router.navigate(['/login']);  

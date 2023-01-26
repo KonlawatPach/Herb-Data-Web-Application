@@ -21,6 +21,8 @@ export class AppComponent {
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
         this.checkcloseNav(location.path());
+        this.showappNavbar = false;
+        this.showappNavbar = true;
       }
     });
   }
@@ -34,7 +36,7 @@ export class AppComponent {
   }
 
   checkcloseNav(path: string){
-    if(path == "/login" || path == "/register"){
+    if(path == "/login"){
       this.showappNavbar = false;
     }
     else{

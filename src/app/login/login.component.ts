@@ -43,9 +43,15 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       let res = await this.crud.loginUser(this.loginForm.value.email, this.loginForm.value.password);
       if(res.status == 'complete'){
-        this.auth.login();
+        this.auth.login(this.loginForm.value.email + res.role);
         this.loginForm.reset();
-        this.router.navigate(['/admin']);
+        if(res.role == 'admin'){
+          this.router.navigate(['/admin']);
+        }
+        else{
+          this.router.navigate(['']);
+        }
+        
       }
       else{
         alert('รหัสผ่านผิด')

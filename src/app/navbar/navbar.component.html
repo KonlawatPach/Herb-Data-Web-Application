@@ -7,14 +7,18 @@
     </div>
     
     <ul>
-        <li><a routerLink="/" [class.a-hover]="nowpath=='' || nowpath=='/'">
+        <li><a routerLink="/" [class.a-hover]="nowpath=='' || nowpath=='/' || nowpath=='/%20'">
             หน้าหลัก
         </a></li>
         <li><a routerLink="/search" [class.a-hover]="nowpath=='/search'">
             ค้นหาสมุนไพร
         </a></li>
-        <li><a routerLink="/login">
+        <li *ngIf="profile == ''"><a routerLink="/login">
             ลงชื่อเข้าสู่ระบบ
         </a></li>
+        <li *ngIf="profile != ''" class="profile" (click)="logout()">
+            <span>{{profile}}</span>
+            <img src="assets/back-arrow.svg">
+        </li>
     </ul>
 </div>

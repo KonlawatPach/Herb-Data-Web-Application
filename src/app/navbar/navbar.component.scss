@@ -39,6 +39,7 @@
         list-style-type: none;
         margin: 0;
         gap: 30px;
+        align-items: center;
         
         li{
             // padding: 6px 10px;
@@ -59,6 +60,35 @@
             a:hover, .a-hover{
                 background-color: rgb(21, 98, 0);
                 color: white;
+            }
+        }
+        .profile{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 4px;
+
+            span{
+                font-weight: 500;
+            }
+            padding: 6px 10px;
+                border-radius: 100px;
+            img{
+                width: 10px;
+                -webkit-transform:rotate(-90deg);
+                -moz-transform: rotate(-90deg);
+                -ms-transform: rotate(-90deg);
+                -o-transform: rotate(-90deg);
+                transform: rotate(-90deg);
+                filter: invert(100%);
+                margin-top: 4px;
+            }
+        }
+        .profile:hover{
+            background-color: rgb(21, 98, 0);
+            color: white;
+            img{
+                filter: invert(0);
             }
         }
     }
