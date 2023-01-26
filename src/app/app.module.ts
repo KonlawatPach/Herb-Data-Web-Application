@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { RouterModule, Route } from '@angular/router';
+import { Observable } from 'rxjs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms' 
