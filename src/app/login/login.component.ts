@@ -43,15 +43,19 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid){
       let res = await this.crud.loginUser(this.loginForm.value.email, this.loginForm.value.password);
       if(res.status == 'complete'){
-        this.auth.login(this.loginForm.value.email + res.role);
-        this.loginForm.reset();
-        if(res.role == 'admin'){
-          this.router.navigate(['/admin']);
-        }
-        else{
+        if(res.userstatus == 'request'){
+          alert("กรุณารอผู้ดูแลตรวจสอบ");
           this.router.navigate(['']);
+        }else{
+          this.auth.login(this.loginForm.value.email + res.role);
+          this.loginForm.reset();
+          if(res.role == 'admin'){
+            this.router.navigate(['/admin']);
+          }
+          else{
+            this.router.navigate(['']);
+          }
         }
-        
       }
       else{
         alert('รหัสผ่านผิด')
@@ -73,6 +77,7 @@ export class LoginComponent implements OnInit {
       let res = await this.crud.registerUser(this.registerForm.value.email, btoa(this.registerForm.value.password), role);
       if(res.status == 'complete'){
         this.registerForm.reset();
+        alert("กรุณารอผู้ดูแลตรวจสอบต่อไป");
         this.router.navigate(['']);
       }
       else{
