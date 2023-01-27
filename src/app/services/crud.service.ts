@@ -11,25 +11,23 @@ export class CrudService {
   ) { }
 
   async getHerb(){
-    // var body = JSON.stringify({
-    //   "collection": "herb_lists",
-    //   "database": "herb_data",
-    //   "dataSource": "Cluster0",
-    // });
-
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type':  'application/json',
-    //     'Access-Control-Request-Headers': '*',
-    //     'api-key': 'pBBxWErJ10vtVXKQTqnPpzsud688MlnMvkBSYiWW93vSBVLBDGD1OtpsqWcvTjDt',
-    //     'Accept' : 'application/json'
-    //   })
-    // };
-
-    // const url = "https://data.mongodb-api.com/app/data-ijktw/endpoint/data/v1";
-    // return this.http.post(url, body, httpOptions).subscribe();
     const url = "http://localhost:9000/getherb";
     return await this.http.get<any>(url).toPromise();
+  }
+
+  async updateHerb(nameEN: string, herbObject:any){
+    var body = JSON.stringify({
+      'nameEN': nameEN,
+      'herbObject' : herbObject
+    });
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+        'Accept' : 'application/json'
+      })
+    };
+    const url = "http://localhost:9000/updateherb";
+    return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
   
   async getUser(){
@@ -95,6 +93,4 @@ export class CrudService {
     const url = "http://localhost:9000/deleteuser";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
-
-
 }

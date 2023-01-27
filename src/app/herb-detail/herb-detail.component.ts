@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HerbSessionService } from '../services/herb-session.service';
+import { CrudService } from '../services/crud.service';
 
 @Component({
   selector: 'app-herb-detail',
@@ -18,6 +19,7 @@ export class HerbDetailComponent implements OnInit {
   constructor(
     private location: Location,
     private herbs_session: HerbSessionService,
+    private crud: CrudService,
   ) {
     this.herbpath = decodeURIComponent(location.path())
     this.herbpath = this.herbpath.split('/')[2]
@@ -52,7 +54,7 @@ export class HerbDetailComponent implements OnInit {
     
   }
 
-  submitModify(){
+  async submitModify(){
     let classNamelist = [ 'biology-detail', 
                           'description-detail', 
                           'botanic-title-detail', 
@@ -62,20 +64,77 @@ export class HerbDetailComponent implements OnInit {
                           'sideeffect-detail', 
                           'forbiddenperson-detail', 
                         ];
+    let herbObject:any = {};
+    let botanicTitleArray = [];
+
     for(let classnameIndex in classNamelist){
+      let propertyArray = [];
       let tag = document.getElementsByClassName(classNamelist[classnameIndex]);
       if(tag.length>0){
-        console.log(classNamelist[classnameIndex]);
         for(let t in tag){
-          let x: any = tag[t];
-          if(x.value != undefined){
-            console.log(x.value);
+          let tagValue: any = tag[t];
+          if(tagValue.value != undefined){
+            propertyArray.push(tagValue.value)
           }
         }
       }
-      console.log('------------------------------------');
-    }
-    
-  }
+      
+      switch (classNamelist[classnameIndex]) {
+        case 'biology-detail':
+          let biologyArray = []
+          for(let b=0; b<this.herb.biology.length; b++) {
+            biologyArray.push({
+              'levelNo': this.herb.biology[b][0][1],
+              'levelName': this.herb.biology[b][1][1],
+              'value': propertyArray[b]
+            })
+          }
+          herbObject.biology = biologyArray;
+          break;
 
+        case 'description-detail':
+          herbObject.description = propertyArray[0];
+          break;
+        
+        case 'botanic-title-detail':
+          botanicTitleArray = [...propertyArray];
+          break;
+        
+        case 'botanic-content-detail':
+          botanicTitleArray = [...propertyArray];
+          let botanicArray = []
+          for(let b=0; b<botanicTitleArray.length; b++) {
+            botanicArray.push({
+              botanicTitleArray: propertyArray[b]
+            })
+          }
+
+          herbObject.botanic_propertie = botanicArray;
+          break;
+        
+        case 'propertie-detail':
+          if(propertyArray.length>0) herbObject.propertie = propertyArray;
+          break;
+
+        case 'substance-detail':
+          if(propertyArray.length>0) herbObject.substance = propertyArray;
+          break;
+
+        case 'sideeffect-detail':
+          if(propertyArray.length>0) herbObject.side_effect = propertyArray;
+          break;
+
+        case 'forbiddenperson-detail':
+          if(propertyArray.length>0) herbObject.forbiddenperson = propertyArray;
+          break;   
+          
+        default:
+          break;
+      }
+
+    }
+    // await this.crud.updateHerb(this.herb.nameEN, herbObject);
+    console.log(this.herb._id, herbObject);
+    alert("อัพเดทข้อมูลสมุนไพรเรียบร้อย");
+  }
 }

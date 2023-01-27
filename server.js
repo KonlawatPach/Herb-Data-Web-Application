@@ -2,6 +2,7 @@ const axios = require('axios');
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { async } = require('rxjs');
 
 const app = express();
 app.use(cors());
@@ -29,7 +30,6 @@ function pad(num, size) {
 }
 
 app.get('/getherb', async (req, res) => {
-    // const promise = await axios(config);
     var data = JSON.stringify({
         "collection": "herb_lists",
         "database": "herb_data",
@@ -43,10 +43,94 @@ app.get('/getherb', async (req, res) => {
     res.status(200).end();
 });
 
-app.post('/updateherb', async (req, res) => {
+async function updateProperty(collectionName, newPropertyList, oldPropertyList, nameEN){
+    //getherbproperty
+    var data = JSON.stringify({
+        "collection": collectionName,
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+    });
+    var existProperty = [];
+    await axios(request('post', data, 'find')).then((response) => {
+        existProperty = response.data.documents;
+    }).catch((error) => console.log(error))
     
-});
+    let propertyId = existProperty.map(obj => Object.entries(obj)[0]);
+    let propertyHerbname = existProperty.map(obj => Object.entries(obj)[1]);
 
+    //check
+    let insertProperty = [] //objectlist
+    let updateProperty = [] //objectlist
+    let deletePropertyId = [] //_id list
+    // for(let p=0; p<propertyList.length; p++){
+    //     if(propertyList[p] in propertyId){  //ถ้ามีอยู่แล้วให้แก้ไข
+    //         let propertyIndex = propertyId.indexOf(propertyList[p]);
+    //         if(propertyHerbname[propertyIndex].length <= 1){    //มีอันเดียวให้ลบไปเลย
+    //             deletePropertyId.push(propertyId[propertyIndex]);
+    //         }
+    //         else{                                               //มีหลายอันให้อัพเดทชื่อ
+                                                             
+    //         }
+    //     }else{                              //ถ้าไม่มีให้เพิ่ม
+    //         insertProperty.push({
+    //             "_id" : propertyList[p],
+    //             "herb_name" : [nameEN]
+    //         });
+    //     }
+
+
+    //ลูปปฏิบัติการ
+    //insert new property
+    //update exist property
+    //delete empty property
+    //แก้บัคตามผังก่อน
+}
+app.post('/updateherb', async (req, res) => {
+    let _id = await req.body.nameEN;
+    let herbObject = await req.body.herbObject;
+
+    //เก็บอันเดิมมาเช็ค
+    var data = JSON.stringify({
+        "collection": "herb_lists",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+        "filter": {
+            "_id" : _id
+        },
+    });
+    let getdata = {}
+    await axios(request('post', data, 'findOne')).then((response) => {
+        getdata = response.data.document
+        console.log(getdata);
+    })
+    .catch((error) => {
+        console.log(error);
+    })
+
+    //อัพเดทอันใหม่ลงไป
+    var data = JSON.stringify({
+        "collection": "herb_lists",
+        "database": "herb_data",
+        "dataSource": "Cluster0",
+        "filter": {
+            "_id" : _id
+        },
+        "update": { "$set": herbObject }
+    });
+    await axios(request('post', data, 'updateOne')).catch((error) => { res.send(error) });
+
+    //เทียบแต่ละ property
+    let propertie = herbObject.propertie;
+    let substance = herbObject.substance;
+    let side_effect = herbObject.side_effect;
+    let forbiddenperson = herbObject.forbiddenperson;
+    if(propertie != undefined) await updateProperty('propertie', propertie, getdata.propertie, _id);
+    if(substance != undefined) await updateProperty('substance', substance, getdata.substance, _id);
+    if(side_effect != undefined) await updateProperty('side_effect', side_effect, getdata.side_effect, _id);
+    if(forbiddenperson != undefined) await updateProperty('forbidden_person', forbiddenperson, getdata.forbiddenperson, _id);
+    res.status(200).end();
+
+});
 
 //USER DATA//
 app.get('/getalluser', async (req, res) => {
@@ -173,11 +257,6 @@ app.post('/login', async (req, res) => {
     }
     res.status(200).end();
 });
-
-app.post('/checkstatuslogin', async (req, res) => {
-    
-});
-
 
 app.listen(9000, () => {
     console.log('Application is running on port 9000');
