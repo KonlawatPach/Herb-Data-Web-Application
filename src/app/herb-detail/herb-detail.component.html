@@ -1,51 +1,130 @@
 <div class="details-container" *ngIf="finishLoading">
-    <div class="title-details">
-        <h2 class="title">{{herb.nameTH}} ({{herb._id}})</h2>
-        <div class="title-img">
-            <img src="{{herb.picture}}" alt="{{herb.nameTH}}">
-            <table>
-                <tr>
-                    <th colspan="2">ลำดับชั้นทางวิทยาศาสตร์</th>
-                </tr>
-                <tr *ngFor="let bio of herb.biology">
-                    <td>{{bio[1][1]}}: </td>
-                    <td>{{bio[2][1]}}</td>
-                </tr>
-                <tr>
-                    <th colspan="2">{{scienceName}}</th>
-                </tr>
-            </table>
+
+    <div class="modifydata">
+        <a class="modifydata" [class.disableTagA]="isModifymode" (click)="modifymode('taga')">> แก้ไขข้อมูล{{herb.nameTH}} < </a>
+    </div>
+    
+    <!-- normal display mode -->
+    <div *ngIf="!isModifymode" class="details-box">
+        <div class="title-details">
+            <h2 class="title">{{herb.nameTH}} ({{herb._id}})</h2>
+            <div class="title-img">
+                <img src="{{herb.picture}}" alt="{{herb.nameTH}}">
+                <table>
+                    <tr>
+                        <th colspan="2">ลำดับชั้นทางวิทยาศาสตร์</th>
+                    </tr>
+                    <tr *ngFor="let bio of herb.biology">
+                        <td>{{bio[1][1]}}: </td>
+                        <td>{{bio[2][1]}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="2">{{scienceName}}</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    
+        <div *ngIf="!isModifymode" class="body-details">
+            <p class="description">{{herb.description}}</p>
+            <h3 *ngIf="herb.botanic_propertie.length > 0">ลักษณะของสมุนไพร</h3>
+            <ul>
+                <li *ngFor="let botanic of herb.botanic_propertie">
+                    <b>{{botanic[0]}} : </b>
+                    <span>{{botanic[1]}}</span>
+                </li>
+            </ul>
+    
+            <h3 *ngIf="herb.propertie.length > 0">สรรพคุณของ{{herb.nameTH}}</h3>
+            <ol>
+                <li *ngFor="let p of herb.propertie">{{p}}</li>
+            </ol>
+    
+            <h3 *ngIf="herb.substance.length > 0">คุณสมบัติทางเคมีของ{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let s of herb.substance">{{s}}</li>
+            </ul>
+    
+            <h3 *ngIf="herb.side_effect.length > 0">ผลข้างเคียงของ{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let s of herb.side_effect">{{s}}</li>
+            </ul>
+    
+            <h3 *ngIf="herb.forbiddenperson.length > 0">บุคคลที่ห้ามรับประทานสมุนไพร{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let f of herb.forbiddenperson">{{f}}</li>
+            </ul>
         </div>
     </div>
 
-    <div class="body-details">
-        <p class="description">{{herb.description}}</p>
-        <h3 *ngIf="herb.botanic_propertie.length > 0">ลักษณะของสมุนไพร</h3>
-        <ul>
-            <li *ngFor="let botanic of herb.botanic_propertie">
-                <b>{{botanic[0]}} : </b>
-                <span>{{botanic[1]}}</span>
-            </li>
-        </ul>
+    <!-- modifymode -->
+    <div *ngIf="isModifymode" class="details-box modifyzone">
+        <div class="title-details">
+            <h2 class="title">{{herb.nameTH}} ({{herb._id}})</h2>
+            <div class="title-img">
+                <img src="{{herb.picture}}" alt="{{herb.nameTH}}">
+                <table>
+                    <tr>
+                        <th colspan="2">ลำดับชั้นทางวิทยาศาสตร์</th>
+                    </tr>
+                    <tr *ngFor="let bio of herb.biology">
+                        <td>{{bio[1][1]}}&nbsp;:&nbsp;</td>
+                        <td style="text-align: right">
+                            <input class="biology-detail" type="text" [value]="bio[2][1]">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    
+        <div *ngIf="isModifymode" class="body-details modifyzone">
+            <p class="description">
+                <textarea class="description-detail" type="text" [value]="herb.description"></textarea>
+            </p>
+            <h3 *ngIf="herb.botanic_propertie.length > 0">ลักษณะของสมุนไพร</h3>
+            <ul>
+                <li *ngFor="let botanic of herb.botanic_propertie">
+                    <b>
+                        <input class="botanic-title-detail" type="text" [value]="botanic[0]">&nbsp;: &nbsp;
+                    </b>
+                    <span>
+                        <textarea class="botanic-content-detail" type="text" [value]="botanic[1]"></textarea>
+                    </span>
+                </li>
+            </ul>
+    
+            <h3 *ngIf="herb.propertie.length > 0">สรรพคุณของ{{herb.nameTH}}</h3>
+            <ol>
+                <li *ngFor="let p of herb.propertie">
+                    <textarea class="propertie-detail" type="text" [value]="p"></textarea>
+                </li>
+            </ol>
+    
+            <h3 *ngIf="herb.substance.length > 0">คุณสมบัติทางเคมีของ{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let s of herb.substance">
+                    <textarea class="substance-detail" type="text" [value]="s"></textarea>
+                </li>
+            </ul>
+    
+            <h3 *ngIf="herb.side_effect.length > 0">ผลข้างเคียงของ{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let s of herb.side_effect">
+                    <textarea class="sideeffect-detail" type="text" [value]="s"></textarea>
+                </li>
+            </ul>
+    
+            <h3 *ngIf="herb.forbiddenperson.length > 0">บุคคลที่ห้ามรับประทานสมุนไพร{{herb.nameTH}}</h3>
+            <ul>
+                <li *ngFor="let f of herb.forbiddenperson">
+                    <textarea class="forbiddenperson-detail" type="text" [value]="f"></textarea>
+                </li>
+            </ul>
 
-        <h3 *ngIf="herb.propertie.length > 0">สรรพคุณของ{{herb.nameTH}}</h3>
-        <ol>
-            <li *ngFor="let p of herb.propertie">{{p}}</li>
-        </ol>
-
-        <h3 *ngIf="herb.substance.length > 0">คุณสมบัติทางเคมีของ{{herb.nameTH}}</h3>
-        <ul>
-            <li *ngFor="let s of herb.substance">{{s}}</li>
-        </ul>
-
-        <h3 *ngIf="herb.side_effect.length > 0">ผลข้างเคียงของ{{herb.nameTH}}</h3>
-        <ul>
-            <li *ngFor="let s of herb.side_effect">{{s}}</li>
-        </ul>
-
-        <h3 *ngIf="herb.forbiddenperson.length > 0">บุคคลที่ห้ามรับประทานสมุนไพร{{herb.nameTH}}</h3>
-        <ul>
-            <li *ngFor="let f of herb.forbiddenperson">{{f}}</li>
-        </ul>
+            <div class="button-bar">
+                <button type="submit" class="submit" (click)="submitModify()">บันทึกการแก้ไข</button>
+                <button type="button" class="cancel" (click)="modifymode('')">ยกเลิก</button>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,90 +1,202 @@
 .details-container{
-    margin-top: 62px;
-    background-color: white;
-    display: flex;
-    margin-inline: auto;
-    flex-direction: column;
-    align-items: center;
-    width: 860px;
-    border-radius: 20px;
-    border: 1px black solid;
-    padding: 20px;
+    margin-top: 20px;
 
-    h3{
-        font-weight: 600;
-        text-indent: 10px;
-        margin: 10px 0 0 0;
-    }
-    b, p, li, td{
-        font-size: 14px;
-    }
-    ul, ol{
-        margin: 4px 0 0 0;
-        font-weight: 500;
-        li{
-            text-indent: 0;
-            font-weight: 400;
+    .modifydata{
+        width: 860px;
+        margin-inline: auto;
+        text-align: right;
+
+        a{
+            
+            color: rgb(0, 0, 116);
+            cursor: pointer;
+        }  
+        a:hover{
+            color: blue;
+        }
+        .disableTagA{
+            color: gray;
+            cursor: auto;
+        }
+        .disableTagA:hover{
+            color: gray;
         }
     }
 
-    .title-details{
+    .details-box{
+        background-color: white;
         display: flex;
+        margin-inline: auto;
         flex-direction: column;
-        justify-content: space-between;
-        gap: 10px;
+        align-items: center;
         width: 860px;
-        border-radius: 20px 20px 0 0 ;
+        border-radius: 20px;
+        border: 1px black solid;
+        padding: 20px;
 
-        .title{
-            width: 100%;
-            margin: 0 0 10px 0;
-            text-align: center;
-            letter-spacing: 1px;
+        h3{
+            font-weight: 600;
+            text-indent: 10px;
+            margin: 10px 0 0 0;
         }
-        .title-img{
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-
-            img{
-                object-fit: cover;
-                border-radius: 20px;
-                width: 400px;
-                border: 1px black solid;
-            }
-
-            table{
-                width: 260px;
-                border-collapse: collapse;
-
-                th{
-                    font-weight: 500;
-                }
-                tr{
-                    border-top: 1px rgb(6, 85, 0) solid;
-                    border-bottom: 1px rgb(6, 85, 0) solid;
-                }
-            }
+        b, p, li, td{
+            font-size: 14px;
         }
-    }
-    
-    .body-details{
-        width: 860px;
-        margin-top: 20px;
-
-        b{
+        ul, ol{
+            margin: 4px 0 0 0;
             font-weight: 500;
-
-            span{
+            li{
+                text-indent: 0;
                 font-weight: 400;
             }
         }
-        p{
-            margin: 0;
+
+        .title-details{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            width: 860px;
+            border-radius: 20px 20px 0 0 ;
+
+            .title{
+                width: 100%;
+                margin: 0 0 10px 0;
+                text-align: center;
+                letter-spacing: 1px;
+            }
+            .title-img{
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+
+                img{
+                    object-fit: cover;
+                    border-radius: 20px;
+                    width: 400px;
+                    border: 1px black solid;
+                }
+
+                table{
+                    width: 260px;
+                    border-collapse: collapse;
+
+                    th{
+                        font-weight: 500;
+                    }
+                    tr{
+                        border-top: 1px rgb(6, 85, 0) solid;
+                        border-bottom: 1px rgb(6, 85, 0) solid;
+                    }
+                }
+            }
         }
+        
+        .body-details{
+            width: 860px;
+            margin-top: 20px;
+
+            b{
+                font-weight: 500;
+
+                span{
+                    font-weight: 400;
+                }
+            }
+            p{
+                margin: 0;
+            }
+            .description{
+                text-indent: 40px;
+            }
+            width: 100%;
+        }
+    }
+
+    .modifyzone{
+        input, textarea{
+            resize: vertical;
+            width: 100%;
+            border: 1px black solid;
+            border-radius: 4px;
+        }
+        input:focus textarea:focus{
+            outline: none;
+        }
+        textarea{
+            overflow: hidden;
+            min-height: 100px;
+        }
+
         .description{
-            text-indent: 40px;
+            text-indent: 0px !important;
+            textarea{
+                width: 100%;
+            }
         }
-        width: 100%;
+
+        //biology
+        .biology-detail{
+            width: 140px;
+        }
+
+        // botanic
+        b, span{
+            display: flex;
+            align-items: baseline;
+        }
+        b input{
+            
+            width: 64px;
+        }
+        span textarea{
+            width: 720px;
+            min-height: 100px !important;
+        }
+
+
+        li{
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            margin-bottom: 8px;
+            
+            textarea{
+                min-height: 50px;
+            }
+        }
+        li:before {
+            content: "•";
+            font-size: 16px;
+            padding-right: 10px;
+        }
+        
+        .button-bar{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 30px;
+
+            button{
+                margin-top: 20px;
+                cursor: pointer;
+                background-color: rgb(9, 89, 0);
+                width: max-content;
+                padding: 2px 10px;
+                font-size: 16px;
+                color: white;
+                transition: 200ms;
+            }
+            .submit:hover{
+                background-color: rgb(15, 153, 0);
+                transition: 200ms;
+            }
+            .cancel{
+                background-color: rgb(169, 0, 0);
+            }
+            .cancel:hover{
+                background-color: rgb(234, 0, 0);
+            }
+        }
     }
 }

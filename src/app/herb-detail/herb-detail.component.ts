@@ -8,10 +8,12 @@ import { HerbSessionService } from '../services/herb-session.service';
   styleUrls: ['./herb-detail.component.scss']
 })
 export class HerbDetailComponent implements OnInit {
-  finishLoading : boolean = false;
   herb : any;
   herbpath : string = '';
   scienceName : string = '';
+
+  finishLoading : boolean = false;
+  isModifymode : boolean = false;
 
   constructor(
     private location: Location,
@@ -41,6 +43,39 @@ export class HerbDetailComponent implements OnInit {
     this.scienceName = `${this.herb.biology[this.herb.biology.length-2][2][1]} ${titleCaseSuffig}`;
 
     this.finishLoading = true;
+  }
+
+  modifymode(from:string){
+    if((from == 'taga' && !this.isModifymode) || from != 'taga'){
+      this.isModifymode = this.isModifymode?false:true;
+    }
+    
+  }
+
+  submitModify(){
+    let classNamelist = [ 'biology-detail', 
+                          'description-detail', 
+                          'botanic-title-detail', 
+                          'botanic-content-detail', 
+                          'propertie-detail', 
+                          'substance-detail',
+                          'sideeffect-detail', 
+                          'forbiddenperson-detail', 
+                        ];
+    for(let classnameIndex in classNamelist){
+      let tag = document.getElementsByClassName(classNamelist[classnameIndex]);
+      if(tag.length>0){
+        console.log(classNamelist[classnameIndex]);
+        for(let t in tag){
+          let x: any = tag[t];
+          if(x.value != undefined){
+            console.log(x.value);
+          }
+        }
+      }
+      console.log('------------------------------------');
+    }
+    
   }
 
 }
