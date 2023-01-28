@@ -19,7 +19,7 @@
     </div>
     <div class="herb-displays">
         <div class="herb-display-list">
-            <div *ngFor="let herb of displayHerbs">
+            <div *ngFor="let herb of displayHerbs | slice:0:6">
                 <app-herb-box [herb]="herb"></app-herb-box>
             </div>
         </div>
