@@ -1,0 +1,75 @@
+<div class="filter-container">
+    <div class="filter-box">
+        <div class="filter-heading">
+            <img src="assets/filter-icon.svg" alt="filter-icon">
+            <h2>ตัวกรองข้อมูล</h2>
+        </div>
+        <div class="filter-body">
+            <div class="biofilter">
+                <h4>อนุกรมวิธาน</h4>
+                <div class="samerow">
+                    <label>ค่าของลำดับ : </label>
+                    <select name="biologyfilter">
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                    </select>
+                </div>
+            </div>
+            <div class="propertyfilter">
+                <h4>คุณสมบัติอื่นๆ</h4>
+                <table>
+                    <tr>
+                        <td>สรรพคุณของสมุนไพร : </td>
+                        <td>
+                            <select name="biologyfilter">
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>โรคที่ห้ามรับประทาน : </td>
+                        <td>
+                            <select name="biologyfilter">
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>สารเคมีในสมุนไพร : </td>
+                        <td>
+                            <select name="biologyfilter">
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ผลข้างเคียงของสมุนไพร : </td>
+                        <td>
+                            <select name="biologyfilter">
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="button-bar">
+            <button class="submit" (click)="submit()">ยืนยัน</button>
+            <button class="cancel" (click)="closeFilter.emit()">ยกเลิก</button>
+        </div>
+    </div>
+</div>

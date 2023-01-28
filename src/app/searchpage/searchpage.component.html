@@ -1,4 +1,11 @@
 <div class="search-container">
+
+    <app-filter-box 
+        *ngIf="isOpenFilter"
+        (closeFilter)="isOpenFilter=false;"
+    >
+    </app-filter-box>
+    
     <div class="search-menu">
         <div></div>
         <h3 class="title">ค้นหาสมุนไพร</h3>

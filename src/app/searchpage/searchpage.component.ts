@@ -16,6 +16,7 @@ export class SearchpageComponent implements OnInit {
   
   isSearching : boolean = false;
   showMagnifyingGlass : boolean = true;
+  isOpenFilter : boolean = true;
   
 
   constructor(private herbs_session: HerbSessionService) {
@@ -71,7 +72,7 @@ export class SearchpageComponent implements OnInit {
   }
 
   openfilter(){
-
+    this.isOpenFilter = true;
   }
 
 }
