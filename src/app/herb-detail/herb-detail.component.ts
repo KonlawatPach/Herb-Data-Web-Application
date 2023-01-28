@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { HerbSessionService } from '../services/herb-session.service';
 import { CrudService } from '../services/crud.service';
+import { AuthenticationService } from '../services/auth.service';
 
 @Component({
   selector: 'app-herb-detail',
@@ -14,18 +15,24 @@ export class HerbDetailComponent implements OnInit {
   scienceName : string = '';
 
   finishLoading : boolean = false;
+  isUpdating : boolean = false;
   isModifymode : boolean = false;
 
   constructor(
     private location: Location,
     private herbs_session: HerbSessionService,
     private crud: CrudService,
+    public auth: AuthenticationService
   ) {
     this.herbpath = decodeURIComponent(location.path())
-    this.herbpath = this.herbpath.split('/')[2]
+    this.herbpath = this.herbpath.split('/')[2];
+    this.loadHerbData();
   }
 
-  async ngOnInit(){
+  ngOnInit(){
+  }
+
+  async loadHerbData(){
     var herbs = await this.herbs_session.getHerbs();
     this.herb = herbs.filter((obj:any) => {
       return obj.nameTH == this.herbpath
@@ -55,6 +62,7 @@ export class HerbDetailComponent implements OnInit {
   }
 
   async submitModify(){
+    this.isUpdating = true;
     let classNamelist = [ 'biology-detail', 
                           'description-detail', 
                           'botanic-title-detail', 
@@ -133,8 +141,12 @@ export class HerbDetailComponent implements OnInit {
       }
 
     }
-    // await this.crud.updateHerb(this.herb.nameEN, herbObject);
+    await this.crud.updateHerb(this.herb._id, herbObject);
+    sessionStorage.removeItem('herbs');
+    await this.loadHerbData();
     console.log(this.herb._id, herbObject);
+    this.isUpdating = false;
     alert("อัพเดทข้อมูลสมุนไพรเรียบร้อย");
+    this.modifymode('');
   }
 }

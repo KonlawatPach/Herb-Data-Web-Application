@@ -45,13 +45,11 @@
             line-height: 20px;
         }
     }
+    transition: 300ms;
 }
 
 .herbbox-container:hover{
     transition: 300ms;
     background-color: rgb(244, 244, 244);
     box-shadow: inset -10px -10px 10px rgb(0 0 0 / 10%), inset 10px -10px 10px rgb(0 0 0 / 10%);
-    img{
-        box-shadow: inset -10px -10px 10px rgb(0 0 0 / 10%), inset 10px -10px 10px rgb(0 0 0 / 10%);
-    }
 }

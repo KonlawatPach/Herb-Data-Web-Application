@@ -1,6 +1,6 @@
 <div class="details-container" *ngIf="finishLoading">
 
-    <div class="modifydata">
+    <div class="modifydata" *ngIf="auth.isloggedIn">
         <a class="modifydata" [class.disableTagA]="isModifymode" (click)="modifymode('taga')">> แก้ไขข้อมูล{{herb.nameTH}} < </a>
     </div>
     
@@ -19,7 +19,7 @@
                         <td>{{bio[2][1]}}</td>
                     </tr>
                     <tr>
-                        <th colspan="2">{{scienceName}}</th>
+                        <th class="herbScienceName" colspan="2">{{scienceName}}</th>
                     </tr>
                 </table>
             </div>
@@ -121,9 +121,13 @@
                 </li>
             </ul>
 
-            <div class="button-bar">
-                <button type="submit" class="submit" (click)="submitModify()">บันทึกการแก้ไข</button>
-                <button type="button" class="cancel" (click)="modifymode('')">ยกเลิก</button>
+            <div class="button-bar" *ngIf="!isUpdating">
+                <button [disabled]="isUpdating" type="submit" class="submit" (click)="submitModify()">บันทึกการแก้ไข</button>
+                <button [disabled]="isUpdating" type="button" class="cancel" (click)="modifymode('')">ยกเลิก</button>
+            </div>
+            <div class="loading-circle" *ngIf="isUpdating">
+                <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                <h2>กำลังอัพเดทข้อมูลสมุนไพร โปรดรอสักครู่..</h2>
             </div>
         </div>
     </div>

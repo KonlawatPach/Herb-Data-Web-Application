@@ -23,6 +23,12 @@ export class AppComponent {
         this.checkcloseNav(location.path());
         this.showappNavbar = false;
         this.showappNavbar = true;
+
+        window.scroll({ 
+          top: 0, 
+          left: 0, 
+          behavior: 'smooth' 
+        });
       }
     });
   }

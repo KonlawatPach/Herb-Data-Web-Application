@@ -1,5 +1,5 @@
-<div class="herbbox-container" [routerLink]="['/search', herb.nameTH]">
-    <img [src]="herb.picture" [alt]="herb.nameTH">
+<div class="herbbox-container">
+    <img [src]="herb.picture" [alt]="herb.nameTH" [routerLink]="['/search', herb.nameTH]">
     <div class="textbox">
         <h3 class="nameTH">ชื่อสมุนไพร : 
             <span>{{herb.nameTH}}</span>

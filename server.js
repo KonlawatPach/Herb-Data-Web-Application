@@ -44,46 +44,93 @@ app.get('/getherb', async (req, res) => {
 });
 
 async function updateProperty(collectionName, newPropertyList, oldPropertyList, nameEN){
-    //getherbproperty
-    var data = JSON.stringify({
-        "collection": collectionName,
-        "database": "herb_data",
-        "dataSource": "Cluster0",
-    });
-    var existProperty = [];
-    await axios(request('post', data, 'find')).then((response) => {
-        existProperty = response.data.documents;
-    }).catch((error) => console.log(error))
-    
-    let propertyId = existProperty.map(obj => Object.entries(obj)[0]);
-    let propertyHerbname = existProperty.map(obj => Object.entries(obj)[1]);
+    let propertyNowAdd = newPropertyList.filter(value => !oldPropertyList.includes(value));
+    let propertyDisappear = oldPropertyList.filter(value => !newPropertyList.includes(value));
+    if(propertyNowAdd.length>0 || propertyDisappear.length>0){
+        //getherbproperty
+        var data = JSON.stringify({
+            "collection": collectionName,
+            "database": "herb_data",
+            "dataSource": "Cluster0",
+        });
+        var existProperty = [];
+        await axios(request('post', data, 'find')).then((response) => {
+            existProperty = response.data.documents;
+        }).catch((error) => console.log(error))
+        
+        let propertyId = existProperty.map(obj => obj._id);
+        let propertyHerbname = existProperty.map(obj => obj.herb_name);
 
-    //check
-    let insertProperty = [] //objectlist
-    let updateProperty = [] //objectlist
-    let deletePropertyId = [] //_id list
-    // for(let p=0; p<propertyList.length; p++){
-    //     if(propertyList[p] in propertyId){  //ถ้ามีอยู่แล้วให้แก้ไข
-    //         let propertyIndex = propertyId.indexOf(propertyList[p]);
-    //         if(propertyHerbname[propertyIndex].length <= 1){    //มีอันเดียวให้ลบไปเลย
-    //             deletePropertyId.push(propertyId[propertyIndex]);
-    //         }
-    //         else{                                               //มีหลายอันให้อัพเดทชื่อ
-                                                             
-    //         }
-    //     }else{                              //ถ้าไม่มีให้เพิ่ม
-    //         insertProperty.push({
-    //             "_id" : propertyList[p],
-    //             "herb_name" : [nameEN]
-    //         });
-    //     }
+        //check
+        let insertProperty = [] //objectlist
+        let updateProperty = [] //[property, ลิสต์ชื่อ]
+        let deletePropertyId = [] //_id list
+        
+        for(let p=0; p<propertyNowAdd.length; p++){ //เพิ่งแก้ไข
+            if(propertyId.includes(propertyNowAdd[p])){  //ถ้ามีอยู่แล้วให้แก้ไข
+                let propertyIndex = propertyId.indexOf(propertyNowAdd[p]);
+                let herb_name = propertyHerbname[propertyIndex];
+                herb_name.push(nameEN);
+                updateProperty.push([propertyNowAdd[p], herb_name]);
+            }else{                              //ถ้าไม่มีให้เพิ่ม
+                insertProperty.push({
+                    "_id" : propertyNowAdd[p],
+                    "herb_name" : [nameEN]
+                });
+            }
+        }
+        for(let p=0; p<propertyDisappear.length; p++){ //ที่หายไป
+            let propertyIndex = propertyId.indexOf(propertyDisappear[p]);
+            let herb_name = propertyHerbname[propertyIndex];
+            if(herb_name.length<=1){   //ถ้ามีตัวเดียว
+                deletePropertyId.push(propertyId[propertyIndex])
+            }else{  //ถ้ามี >1 ให้ลบสมาชิกแล้วอัพเดท
+                herb_name.splice(herb_name.indexOf(nameEN), 1)
+                updateProperty.push([propertyDisappear[p], herb_name]);
+            }
+        }
 
+        console.log(collectionName);
+        console.log(insertProperty);
+        console.log(updateProperty);
+        console.log(deletePropertyId);
+        //ลูปปฏิบัติการ
+        //insert new property
+        if(insertProperty.length>0){
+            var data = JSON.stringify({
+                "collection": collectionName,
+                "database": "herb_data",
+                "dataSource": "Cluster0",
+                "documents": insertProperty
+            });
+            await axios(request('post', data, 'insertMany')).catch((error) => console.log(error));
+        }
 
-    //ลูปปฏิบัติการ
-    //insert new property
-    //update exist property
-    //delete empty property
-    //แก้บัคตามผังก่อน
+        //update exist property
+        for(let plist of updateProperty){
+            var data = JSON.stringify({
+                "collection": collectionName,
+                "database": "herb_data",
+                "dataSource": "Cluster0",
+                "filter": plist[0],
+                "update": { "$set": plist[1] }
+            });
+            await axios(request('post', data, 'updateOne')).catch((error) => console.log(error)); 
+        }
+
+        //delete empty property
+        for(let pid of deletePropertyId){
+            var data = JSON.stringify({
+                "collection": collectionName,
+                "database": "herb_data",
+                "dataSource": "Cluster0",
+                "filter": {
+                    "id" : pid
+                },
+            });
+            await axios(request('post', data, 'deleteOne')).catch((error) => console.log(error)); 
+        }
+    }
 }
 app.post('/updateherb', async (req, res) => {
     let _id = await req.body.nameEN;
