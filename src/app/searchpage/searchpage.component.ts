@@ -45,7 +45,7 @@ export class SearchpageComponent implements OnInit {
   }
 
   search(word:string){
-    word = word.replace(" ", "")
+    word = word.replaceAll(" ", "")
     if(word != "" && this.wordSearching != word){
       this.isSearching = true
       this.checkHerbName(word)
