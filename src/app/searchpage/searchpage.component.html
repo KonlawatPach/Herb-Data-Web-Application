@@ -3,6 +3,7 @@
     <app-filter-box 
         *ngIf="isOpenFilter"
         (closeFilter)="isOpenFilter=false;"
+        (sendFilter)="usefilter($event)"
     >
     </app-filter-box>
     

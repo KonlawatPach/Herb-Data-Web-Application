@@ -23,6 +23,7 @@ export class SearchpageComponent implements OnInit {
   }
 
   async ngOnInit(){
+    this.herbs_session.getHerbProperty();
     this.herbs = await this.herbs_session.getHerbs();
     this.displayHerbs = [...this.herbs];
     this.herbs_search_number = this.displayHerbs.length
@@ -73,6 +74,10 @@ export class SearchpageComponent implements OnInit {
 
   openfilter(){
     this.isOpenFilter = true;
+  }
+  usefilter(a:any){
+    this.isOpenFilter = false;
+    console.log(a);
   }
 
 }

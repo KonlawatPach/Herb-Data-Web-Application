@@ -15,3 +15,18 @@ body {
         font-family: 'Mitr', serif;
     }
 }
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgb(168, 168, 168); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgb(31, 104, 0); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #393939; 
+} 

@@ -29,6 +29,8 @@ function pad(num, size) {
     return num;
 }
 
+//HERBS APIs
+
 app.get('/getherb', async (req, res) => {
     var data = JSON.stringify({
         "collection": "herb_lists",
@@ -40,6 +42,41 @@ app.get('/getherb', async (req, res) => {
         await axios(request('post', data, 'find')).then((response) => response.data.documents)
         .catch((error) => console.log(error))
     );
+    res.status(200).end();
+});
+
+app.get('/getherbproperty', async (req, res) => {
+    const collectionNameArray = ["herb_lists", "propertie", "substance", "side_effect", "forbidden_person"];
+    let propertyDataArray = {};
+
+    for(let colName of collectionNameArray){
+        let propertyData = [];
+        var data = JSON.stringify({
+            "collection": colName,
+            "database": "herb_data",
+            "dataSource": "Cluster0",
+        });
+        await axios(request('post', data, 'find')).then((response) => {
+            propertyData = response.data.documents;
+        }).catch((error) => console.log(error))
+
+        if(colName == "herb_lists"){
+            propertyData = propertyData.map(obj => obj.biology);
+            let biocol = Array(8).fill("");
+            let biorow = [];
+            for(let bioherb of propertyData){
+                for(let biopart of bioherb) biocol[biopart.levelNo-1] = biopart.value;
+                biorow.push(biocol);
+                biocol = Array(8).fill("");
+            }
+            propertyDataArray['biology'] = biorow;
+        }else{
+            propertyData = propertyData.map(obj => obj._id);
+            propertyDataArray[colName] = propertyData;
+        }
+    }
+
+    res.send(propertyDataArray);
     res.status(200).end();
 });
 
@@ -179,7 +216,7 @@ app.post('/updateherb', async (req, res) => {
 
 });
 
-//USER DATA//
+//USER DATA APIs//
 app.get('/getalluser', async (req, res) => {
     var data = JSON.stringify({
         "collection": "user",

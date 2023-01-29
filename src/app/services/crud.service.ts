@@ -14,6 +14,10 @@ export class CrudService {
     const url = "http://localhost:9000/getherb";
     return await this.http.get<any>(url).toPromise();
   }
+  async getHerbProperty(){
+    const url = "http://localhost:9000/getherbproperty";
+    return await this.http.get<any>(url).toPromise();
+  }
 
   async updateHerb(nameEN: string, herbObject:any){
     var body = JSON.stringify({
