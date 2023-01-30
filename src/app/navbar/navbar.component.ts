@@ -11,6 +11,7 @@ import { AuthenticationService } from '../services/auth.service';
 export class NavbarComponent implements OnInit {
   nowpath = "";
   public profile = '';
+  public role = '';
 
   constructor(
     public location: Location,
@@ -32,7 +33,10 @@ export class NavbarComponent implements OnInit {
   checkAuth(){
     if(this.auth.isloggedIn){
       this.profile = atob(this.auth.getCurrentUser);
-      if(this.profile.endsWith('admin')) this.profile = this.profile.slice(0, this.profile.length-5);
+      if(this.profile.endsWith('admin')) {
+        this.profile = this.profile.slice(0, this.profile.length-5);
+        this.role = 'admin';
+      }
       else if(this.profile.endsWith('professional')) this.profile = this.profile.slice(0, this.profile.length-12)
     }
     else{

@@ -17,7 +17,7 @@ export class SearchpageComponent implements OnInit {
   
   isSearching : boolean = false;
   showMagnifyingGlass : boolean = true;
-  isOpenFilter : boolean = true;
+  isOpenFilter : boolean = false;
   useFilter: boolean = false;
   
 

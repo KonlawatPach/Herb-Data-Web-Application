@@ -21,8 +21,8 @@
             <img src="assets/back-arrow.svg">
             <div class="floating_dropdown">
                 <ul>
+                    <li *ngIf="role == 'admin'" routerLink="/admin">จัดการข้อมูลผู้ใช้</li>
                     <li (click)="logout()">ออกจากระบบ</li>
-                    <!-- <li (click)="logout()">อื่นๆ</li> -->
                 </ul>
             </div>
         </li>
