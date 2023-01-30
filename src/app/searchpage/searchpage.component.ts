@@ -13,10 +13,12 @@ export class SearchpageComponent implements OnInit {
 
   displayHerbs : any = [];
   wordSearching : string = "";
+  nowFilterList : any = [];
   
   isSearching : boolean = false;
   showMagnifyingGlass : boolean = true;
   isOpenFilter : boolean = true;
+  useFilter: boolean = false;
   
 
   constructor(private herbs_session: HerbSessionService) {
@@ -38,7 +40,7 @@ export class SearchpageComponent implements OnInit {
     this.wordSearching = word;
     let newHerbArray = [];
     for(let h of this.herbs){
-      if(h.nameTH.includes(word) || h._id.toLowerCase().includes(word.toLowerCase())){
+      if((word == '' || h.nameTH.includes(word) || h._id.toLowerCase().includes(word.toLowerCase())) && this.passFilter(h)){
         newHerbArray.push(h);
       }
     }
@@ -50,17 +52,14 @@ export class SearchpageComponent implements OnInit {
     word = word.replaceAll(" ", "")
     if(word != "" && this.wordSearching != word){
       this.isSearching = true
-      this.checkHerbName(word)
-      this.compareWord(word);
-      this.searchwordBox.nativeElement.value = word;
     }
     else{
       this.isSearching = false
       this.wordSearching = "";
-      this.displayHerbs = [...this.herbs]
-      this.searchwordBox.nativeElement.value = '';
-      this.compareWord('');
     }
+    this.compareWord(word);
+    this.searchwordBox.nativeElement.value = word;
+    this.checkHerbName(word);
   }
 
   compareWord(word:string){
@@ -75,9 +74,52 @@ export class SearchpageComponent implements OnInit {
   openfilter(){
     this.isOpenFilter = true;
   }
-  usefilter(a:any){
+  usefilter(filterList:any){
     this.isOpenFilter = false;
-    console.log(a);
+    if( //ไม่ระบุหมดเลย
+      this.checkWordInArray(filterList[0], 'ไม่ระบุ') && 
+      filterList[1][0] == 'ไม่ระบุ' &&
+      filterList[1][1] == 'ไม่ระบุ' &&
+      filterList[1][2] == 'ไม่ระบุ' &&
+      filterList[1][3] == 'ไม่ระบุ'
+    ){
+      this.useFilter = false;
+    }
+    else{
+      this.useFilter = true;
+      this.nowFilterList = filterList;
+    }
+    this.search(this.wordSearching);
+  }
+  checkWordInArray(bioArray:any, word:string){
+    for(let b of bioArray){
+      if(b != word){
+        return false;
+      }
+    }
+    return true;
   }
 
+
+  passFilter(herbObject:any){
+    if(!this.useFilter){
+      return true;
+    }
+
+    for(let i=0; i<8; i++){
+      if(this.nowFilterList[0][i] != 'ไม่ระบุ'){
+        let hb = herbObject.biology.find((x:any) => x.levelNo == i+1)
+        if(hb != undefined && hb.value != this.nowFilterList[0][i]){
+          return false;
+        }
+      }
+    }
+
+    if(this.nowFilterList[1][0] != 'ไม่ระบุ' && !herbObject.propertie.includes(this.nowFilterList[1][0])) return false;
+    if(this.nowFilterList[1][1] != 'ไม่ระบุ' && !herbObject.forbidden_person.includes(this.nowFilterList[1][1])) return false;
+    if(this.nowFilterList[1][2] != 'ไม่ระบุ' && !herbObject.substance.includes(this.nowFilterList[1][2])) return false;
+    if(this.nowFilterList[1][3] != 'ไม่ระบุ' && !herbObject.side_effect.includes(this.nowFilterList[1][3])) return false;
+
+    return true;
+  }
 }
