@@ -110,10 +110,12 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
                 herb_name.push(nameEN);
                 updateProperty.push([propertyNowAdd[p], herb_name]);
             }else{                              //ถ้าไม่มีให้เพิ่ม
-                insertProperty.push({
-                    "_id" : propertyNowAdd[p],
-                    "herb_name" : [nameEN]
-                });
+                if(propertyNowAdd[p] != '' && propertyNowAdd[p] != ' '){
+                    insertProperty.push({
+                        "_id" : propertyNowAdd[p],
+                        "herb_name" : [nameEN]
+                    });
+                }
             }
         }
         for(let p=0; p<propertyDisappear.length; p++){ //ที่หายไป
@@ -121,7 +123,8 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
             let herb_name = propertyHerbname[propertyIndex];
             if(herb_name.length<=1){   //ถ้ามีตัวเดียว
                 deletePropertyId.push(propertyId[propertyIndex])
-            }else{  //ถ้ามี >1 ให้ลบสมาชิกแล้วอัพเดท
+            }
+            else{  //ถ้ามี >1 ให้ลบสมาชิกแล้วอัพเดท
                 herb_name.splice(herb_name.indexOf(nameEN), 1)
                 updateProperty.push([propertyDisappear[p], herb_name]);
             }
@@ -149,8 +152,12 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
                 "collection": collectionName,
                 "database": "herb_data",
                 "dataSource": "Cluster0",
-                "filter": plist[0],
-                "update": { "$set": plist[1] }
+                "filter": {
+                    '_id' : plist[0] 
+                },
+                "update": { 
+                    "$set": plist[1] 
+                }
             });
             await axios(request('post', data, 'updateOne')).catch((error) => console.log(error)); 
         }
@@ -162,7 +169,7 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
                 "database": "herb_data",
                 "dataSource": "Cluster0",
                 "filter": {
-                    "id" : pid
+                    "_id" : pid
                 },
             });
             await axios(request('post', data, 'deleteOne')).catch((error) => console.log(error)); 
@@ -191,6 +198,12 @@ app.post('/updateherb', async (req, res) => {
         console.log(error);
     })
 
+    let newHerbObject = herbObject;
+    if(newHerbObject.propertie != undefined && newHerbObject.propertie.length>0) newHerbObject.propertie = newHerbObject.propertie.filter(p => p.replaceAll(' ', '') != '');
+    if(newHerbObject.forbiddenperson != undefined && newHerbObject.forbiddenperson.length>0) newHerbObject.forbiddenperson = newHerbObject.forbiddenperson.filter(p => p.replaceAll(' ', '') != '');
+    if(newHerbObject.side_effect != undefined && newHerbObject.side_effect.length>0) newHerbObject.side_effect = newHerbObject.side_effect.filter(p => p.replaceAll(' ', '') != '');
+    if(newHerbObject.substance != undefined && newHerbObject.substance.length>0) newHerbObject.substance = newHerbObject.substance.filter(p => p.replaceAll(' ', '') != '');    
+
     //อัพเดทอันใหม่ลงไป
     var data = JSON.stringify({
         "collection": "herb_lists",
@@ -199,7 +212,9 @@ app.post('/updateherb', async (req, res) => {
         "filter": {
             "_id" : _id
         },
-        "update": { "$set": herbObject }
+        "update": {
+            "$set": newHerbObject
+        }
     });
     await axios(request('post', data, 'updateOne')).catch((error) => { res.send(error) });
 
