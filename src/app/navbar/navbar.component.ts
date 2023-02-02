@@ -37,7 +37,10 @@ export class NavbarComponent implements OnInit {
         this.profile = this.profile.slice(0, this.profile.length-5);
         this.role = 'admin';
       }
-      else if(this.profile.endsWith('professional')) this.profile = this.profile.slice(0, this.profile.length-12)
+      else if(this.profile.endsWith('professional')){
+        this.profile = this.profile.slice(0, this.profile.length-12);
+        this.role = 'professional';
+      }
     }
     else{
       this.profile = '';
