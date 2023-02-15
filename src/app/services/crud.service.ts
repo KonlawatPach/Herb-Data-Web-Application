@@ -11,11 +11,11 @@ export class CrudService {
   ) { }
 
   async getHerb(){
-    const url = "http://localhost:9000/getherb";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getherb";
     return await this.http.get<any>(url).toPromise();
   }
   async getHerbProperty(){
-    const url = "http://localhost:9000/getherbproperty";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getherbproperty";
     return await this.http.get<any>(url).toPromise();
   }
 
@@ -30,12 +30,12 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "http://localhost:9000/updateherb";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/updateherb";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
   
   async getUser(){
-    const url = "http://localhost:9000/getalluser";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getalluser";
     return await this.http.get<any>(url).toPromise();
   }
 
@@ -51,7 +51,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "http://localhost:9000/register";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/register";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -66,7 +66,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "http://localhost:9000/login";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/login";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -80,7 +80,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "http://localhost:9000/confirmuser";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/confirmuser";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -94,7 +94,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "http://localhost:9000/deleteuser";
+    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/deleteuser";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 }
