@@ -1,0 +1,45 @@
+.herbs-scraper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+.herbs-scraper__title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.herbs-scraper__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.herbs-scraper__label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.herbs-scraper__input {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.herbs-scraper__button {
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.herbs-scraper__button:hover {
+    background-color: #0069d9;
+}

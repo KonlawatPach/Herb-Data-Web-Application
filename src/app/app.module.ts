@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { ToptwelveherbsContainerComponent } from './index/toptwelveherbs-container/toptwelveherbs-container.component';
 import { HerbDetailComponent } from './herb-detail/herb-detail.component';
 import { FilterBoxComponent } from './searchpage/filter-box/filter-box.component';
+import { ScrapingpageComponent } from './scrapingpage/scrapingpage.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { FilterBoxComponent } from './searchpage/filter-box/filter-box.component
     ToptwelveherbsContainerComponent,
     HerbDetailComponent,
     FilterBoxComponent,
+    ScrapingpageComponent,
   ],
   imports: [
     BrowserModule,

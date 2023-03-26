@@ -54,6 +54,13 @@
             <ul>
                 <li *ngFor="let f of herb.forbiddenperson">{{f}}</li>
             </ul>
+
+            <h3>แหล่งที่มาของข้อมูล</h3>
+            <ul>
+                <li *ngFor="let hf of herb.reference">
+                    <a href="{{hf}}" target="_blank">{{hf}}</a>
+                </li>
+            </ul>
         </div>
     </div>
 

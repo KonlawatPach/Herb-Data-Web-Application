@@ -6,6 +6,8 @@ import { SearchpageComponent } from './searchpage/searchpage.component';
 import { AdminpageComponent } from './adminpage/adminpage.component';
 import { LoginComponent } from './login/login.component';
 import { HerbDetailComponent } from './herb-detail/herb-detail.component';
+import { ScrapingpageComponent } from './scrapingpage/scrapingpage.component';
+
 import { AuthGuard } from './services/auth-guard.service';
 
 
@@ -22,6 +24,10 @@ const routes: Routes = [
     component: AdminpageComponent, 
     canActivate: [AuthGuard]},
   {
+    path: "scraping", 
+    component: ScrapingpageComponent, 
+    canActivate: [AuthGuard]},
+  {
     path: "login", 
     component: LoginComponent},
   {
@@ -31,7 +37,7 @@ const routes: Routes = [
   {
     path: "**", 
     component: IndexComponent
-  },
+  }
 ];
 
 @NgModule({

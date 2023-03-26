@@ -29,11 +29,6 @@ export class SearchpageComponent implements OnInit {
     this.herbs = await this.herbs_session.getHerbs();
     this.displayHerbs = [...this.herbs];
     this.herbs_search_number = this.displayHerbs.length
-
-    if(sessionStorage.getItem("searchwordfromhomepage") != null){
-      this.search(sessionStorage.getItem("searchwordfromhomepage")!);
-      sessionStorage.removeItem("searchwordfromhomepage");
-    }
   }  
 
   checkHerbName(word:string){

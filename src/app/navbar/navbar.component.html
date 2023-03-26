@@ -22,6 +22,7 @@
             <div class="floating_dropdown">
                 <ul>
                     <li *ngIf="role == 'admin'" routerLink="/admin">จัดการข้อมูลผู้ใช้</li>
+                    <li *ngIf="role == 'admin'" routerLink="/scraping">รวบรวมข้อมูล (Scraping)</li>
                     <li (click)="logout()">ออกจากระบบ</li>
                 </ul>
             </div>

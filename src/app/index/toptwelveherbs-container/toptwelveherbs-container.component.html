@@ -2,20 +2,6 @@
     <div class="search-menu">
         <div></div>
         <h3 class="title">สมุนไพรยอดนิยม</h3>
-        <div class="search-bar">
-            <div class="floating">
-                <button (click)="search(searchword.value)" class="search-button">
-                    <img *ngIf="showMagnifyingGlass" src="assets/magnifying-glass.svg" alt="magnifying-glass">
-                    <img *ngIf="!showMagnifyingGlass" src="assets/close-icon.svg" alt="clear">
-                </button>
-            </div>
-            <input
-                #searchword 
-                (keydown.enter)="search(searchword.value)"
-                placeholder="ค้นหาสมุนไพรอื่นๆ"
-            >
-            
-        </div>
     </div>
     <div class="herb-displays">
         <div class="herb-display-list">
