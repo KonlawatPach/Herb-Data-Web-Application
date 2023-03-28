@@ -10,7 +10,7 @@
     <div class="filter-top">
         <div class="search-bar">
             <p>ระบุชื่อภาษาไทยหรือชื่อภาษาอังกฤษของสมุนไพร : </p>
-            <input type="text">
+            <input type="text" #searchbox>
         </div>
     </div>
     <div class="filter-body" *ngIf="!isLoadingProperty">
@@ -35,7 +35,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>โรคที่ห้ามรับประทาน : </td>
+                    <td>ผู้ที่ห้ามรับประทาน : </td>
                     <td>
                         <select #forbiddenfilter  name="forbiddenfilter">
                             <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden}}">{{shortstring(forbidden)}}</option>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="button-bar">
-            <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value])">ยืนยันเงื่อนไขการค้นหา</button>
+            <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value, searchbox.value])">ยืนยันเงื่อนไขการค้นหา</button>
             <button class="cancel" (click)="clearResult.emit()">ล้างผลลัพธ์การค้นหา</button>
         </div>
     </div>

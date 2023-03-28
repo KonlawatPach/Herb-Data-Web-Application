@@ -7,7 +7,7 @@ import { HerbSessionService } from '../services/herb-session.service';
   styleUrls: ['./searchpage.component.scss']
 })
 export class SearchpageComponent implements OnInit {
-  @ViewChild('searchword') searchwordBox: any;
+  // @ViewChild('searchword') searchwordBox: any;
   herbs : any  = [];
   herbs_search_number : number = 0;
 
@@ -27,50 +27,57 @@ export class SearchpageComponent implements OnInit {
   async ngOnInit(){
     this.herbs_session.getHerbProperty();
     this.herbs = await this.herbs_session.getHerbs();
-    this.displayHerbs = [...this.herbs];
-    this.herbs_search_number = this.displayHerbs.length
+    // this.displayHerbs = [...this.herbs];
+    // this.herbs_search_number = this.displayHerbs.length;
   }  
 
   checkHerbName(word:string){
     this.wordSearching = word;
     let newHerbArray = [];
-    for(let h of this.herbs){
-      if((word == '' || h.nameTH.includes(word) || h._id.toLowerCase().includes(word.toLowerCase())) && this.passFilter(h)){
-        newHerbArray.push(h);
+    if(word == '' && !this.useFilter){
+      this.displayHerbs = [];
+      this.isSearching = false;
+    }
+    else{
+      for(let h of this.herbs){
+        if((word == '' || h.nameTH.includes(word) || h._id.toLowerCase().includes(word.toLowerCase())) && this.passFilter(h)){
+          newHerbArray.push(h);
+        }
       }
     }
+
     this.displayHerbs = [...newHerbArray];
     this.herbs_search_number = this.displayHerbs.length;
   }
 
   search(word:string){
     word = word.replaceAll(" ", "")
-    if(word != "" && this.wordSearching != word){
+    // if(word != "" && this.wordSearching != word){
       this.isSearching = true
-    }
-    else{
-      this.isSearching = false
-      this.wordSearching = "";
-    }
-    this.compareWord(word);
-    this.searchwordBox.nativeElement.value = word;
+    // }
+    // else{
+    //   this.isSearching = false
+    //   this.wordSearching = "";
+    // }
+    // this.compareWord(word);
+    // this.searchwordBox.nativeElement.value = word;
     this.checkHerbName(word);
   }
 
-  compareWord(word:string){
-    word = word.replace(" ", "");
-    if((this.isSearching && word == this.wordSearching) || (word == "" && this.wordSearching != "" && this.isSearching)){
-      this.showMagnifyingGlass = false;
-    }else{
-      this.showMagnifyingGlass = true;
-    }
-  }
+  // compareWord(word:string){
+  //   word = word.replace(" ", "");
+  //   if((this.isSearching && word == this.wordSearching) || (word == "" && this.wordSearching != "" && this.isSearching)){
+  //     this.showMagnifyingGlass = false;
+  //   }else{
+  //     this.showMagnifyingGlass = true;
+  //   }
+  // }
 
   openfilter(){
     this.isOpenFilter = true;
   }
   usefilter(filterList:any){
-    this.isOpenFilter = false;
+    // this.isOpenFilter = false;
     if( //ไม่ระบุหมดเลย
       this.checkWordInArray(filterList[0], 'ไม่ระบุ') && 
       filterList[1][0] == 'ไม่ระบุ' &&
@@ -84,7 +91,8 @@ export class SearchpageComponent implements OnInit {
       this.useFilter = true;
       this.nowFilterList = filterList;
     }
-    this.search(this.wordSearching);
+    // this.search(this.wordSearching);
+    this.search(filterList[1][4]);
   }
   checkWordInArray(bioArray:any, word:string){
     for(let b of bioArray){
@@ -101,17 +109,24 @@ export class SearchpageComponent implements OnInit {
       return true;
     }
 
+    let numPass = 0;
     for(let i=0; i<8; i++){
       if(this.nowFilterList[0][i] != 'ไม่ระบุ'){
         let hb = herbObject.biology.find((x:any) => x.levelNo == i+1)
         if(hb != undefined && hb.value != this.nowFilterList[0][i]){
           return false;
         }
+        else if(hb == undefined){
+          numPass+=1;
+        }
       }
+    }
+    if(numPass>=1){
+      return false;
     }
 
     if(this.nowFilterList[1][0] != 'ไม่ระบุ' && !herbObject.propertie.includes(this.nowFilterList[1][0])) return false;
-    if(this.nowFilterList[1][1] != 'ไม่ระบุ' && !herbObject.forbidden_person.includes(this.nowFilterList[1][1])) return false;
+    if(this.nowFilterList[1][1] != 'ไม่ระบุ' && !herbObject.forbiddenperson.includes(this.nowFilterList[1][1])) return false;
     if(this.nowFilterList[1][2] != 'ไม่ระบุ' && !herbObject.substance.includes(this.nowFilterList[1][2])) return false;
     if(this.nowFilterList[1][3] != 'ไม่ระบุ' && !herbObject.side_effect.includes(this.nowFilterList[1][3])) return false;
 
@@ -119,6 +134,7 @@ export class SearchpageComponent implements OnInit {
   }
 
   clearResult(){
-    console.log("clear");
+    this.displayHerbs = [...[]];
+    this.isSearching = false;
   }
 }
