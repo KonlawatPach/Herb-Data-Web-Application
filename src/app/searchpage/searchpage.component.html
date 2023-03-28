@@ -1,13 +1,16 @@
 <div class="search-container">
-
-    <app-filter-box 
+    <app-filter-box
+        (sendFilter)="usefilter($event)"
+        (clearResult)="clearResult()"
+    ></app-filter-box>
+    <!-- <app-filter-box 
         *ngIf="isOpenFilter"
         (closeFilter)="isOpenFilter=false;"
         (sendFilter)="usefilter($event)"
     >
-    </app-filter-box>
+    </app-filter-box> -->
     
-    <div class="search-menu">
+    <!-- <div class="search-menu">
         <div></div>
         <h3 class="title">ค้นหาสมุนไพร</h3>
         <div class="search-bar">
@@ -29,8 +32,9 @@
                 <img src="assets/filter-icon.svg" alt="filter">
             </button>
         </div>
-    </div>
+    </div> -->
     <div class="herb-displays">
+        <h3>ผลลัพธ์การค้นหา</h3>
         <p>
             <span *ngIf="displayHerbs.length>0">ผลลัพธ์ทั้งหมด {{displayHerbs.length}} รายการ </span>
             <span *ngIf="displayHerbs.length<=0">ไม่พบผลลัพธ์การค้นหา </span>

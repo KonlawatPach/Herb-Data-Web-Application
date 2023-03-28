@@ -117,4 +117,8 @@ export class SearchpageComponent implements OnInit {
 
     return true;
   }
+
+  clearResult(){
+    console.log("clear");
+  }
 }

@@ -7,7 +7,7 @@ import { HerbSessionService } from 'src/app/services/herb-session.service';
   styleUrls: ['./filter-box.component.scss']
 })
 export class FilterBoxComponent implements OnInit {
-  @Output() closeFilter = new EventEmitter;
+  @Output() clearResult = new EventEmitter;
   @Output() sendFilter = new EventEmitter;
 
   bioLabel : string[] = ["Kingdom", "Phylum", "Class", "Subclass", "Order", "Family", "Genus", "Species"];

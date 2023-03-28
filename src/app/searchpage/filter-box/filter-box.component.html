@@ -1,64 +1,69 @@
 <div class="filter-container">
-    <div class="filter-box">
-        <div class="filter-heading">
-            <img src="assets/filter-icon.svg" alt="filter-icon">
-            <h2>ตัวกรองข้อมูล</h2>
+    <div class="filter-heading">
+        <img src="assets/filter-icon.svg" alt="filter-icon">
+        <h3 class="title">ค้นหาสมุนไพร</h3>
+    </div>
+    <div class="loading-circle" *ngIf="isLoadingProperty">
+        <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        <h2>กำลังโหลดข้อมูลลักษณะสมุนไพร โปรดรอสักครู่..</h2>
+    </div>
+    <div class="filter-top">
+        <div class="search-bar">
+            <p>ระบุชื่อภาษาไทยหรือชื่อภาษาอังกฤษของสมุนไพร : </p>
+            <input type="text">
         </div>
-        <div class="loading-circle" *ngIf="isLoadingProperty">
-            <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            <h2>กำลังโหลดข้อมูลลักษณะสมุนไพร โปรดรอสักครู่..</h2>
+    </div>
+    <div class="filter-body" *ngIf="!isLoadingProperty">
+        <div class="biofilter">
+            <h4>อนุกรมวิธาน</h4>
+            <div class="samerow" *ngFor="let biolabel of bioLabel; let i = index">
+                <label>{{biolabel}} : </label>
+                <select class="biofilterlist" (change)="bioCheckingDisplay()" name="biologyfilter">
+                    <option *ngFor="let bio of displayBio[i]" value="{{bio}}">{{bio}}</option>
+                </select>
+            </div>
         </div>
-        <div class="filter-body" *ngIf="!isLoadingProperty">
-            <div class="biofilter">
-                <h4>อนุกรมวิธาน</h4>
-                <div class="samerow" *ngFor="let biolabel of bioLabel; let i = index">
-                    <label>{{biolabel}} : </label>
-                    <select class="biofilterlist" (change)="bioCheckingDisplay()" name="biologyfilter">
-                        <option *ngFor="let bio of displayBio[i]" value="{{bio}}">{{bio}}</option>
-                    </select>
-                </div>
-            </div>
-            <div class="propertyfilter">
-                <h4>คุณสมบัติอื่นๆ</h4>
-                <table>
-                    <tr>
-                        <td>สรรพคุณของสมุนไพร : </td>
-                        <td>
-                            <select #propertiefilter name="propertiefilter">
-                                <option *ngFor="let propertie of herbProperty.propertie" value="{{propertie}}">{{shortstring(propertie)}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>โรคที่ห้ามรับประทาน : </td>
-                        <td>
-                            <select #forbiddenfilter  name="forbiddenfilter">
-                                <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden}}">{{shortstring(forbidden)}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>สารเคมีในสมุนไพร : </td>
-                        <td>
-                            <select #substancefilter name="substancefilter">
-                                <option *ngFor="let substance of herbProperty.substance" value="{{substance}}">{{shortstring(substance)}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>ผลข้างเคียงของสมุนไพร : </td>
-                        <td>
-                            <select #sideeffectfilter name="sideeffectfilter">
-                                <option *ngFor="let side_effect of herbProperty.side_effect" value="{{side_effect}}">{{shortstring(side_effect)}}</option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <div class="button-bar">
-                    <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value])">ยืนยัน</button>
-                    <button class="cancel" (click)="closeFilter.emit()">ยกเลิก</button>
-                </div>
-            </div>
+        <div class="propertyfilter">
+            <h4>คุณสมบัติอื่นๆ</h4>
+            <table>
+                <tr>
+                    <td>สรรพคุณของสมุนไพร : </td>
+                    <td>
+                        <select #propertiefilter name="propertiefilter">
+                            <option *ngFor="let propertie of herbProperty.propertie" value="{{propertie}}">{{shortstring(propertie)}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>โรคที่ห้ามรับประทาน : </td>
+                    <td>
+                        <select #forbiddenfilter  name="forbiddenfilter">
+                            <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden}}">{{shortstring(forbidden)}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>สารเคมีในสมุนไพร : </td>
+                    <td>
+                        <select #substancefilter name="substancefilter">
+                            <option *ngFor="let substance of herbProperty.substance" value="{{substance}}">{{shortstring(substance)}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ผลข้างเคียงของสมุนไพร : </td>
+                    <td>
+                        <select #sideeffectfilter name="sideeffectfilter">
+                            <option *ngFor="let side_effect of herbProperty.side_effect" value="{{side_effect}}">{{shortstring(side_effect)}}</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="button-bar">
+            <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value])">ยืนยันเงื่อนไขการค้นหา</button>
+            <button class="cancel" (click)="clearResult.emit()">ล้างผลลัพธ์การค้นหา</button>
         </div>
     </div>
 </div>
