@@ -61,7 +61,7 @@ app.get('/getherbproperty', async (req, res) => {
         }).catch((error) => console.log(error))
 
         if(colName == "herb_lists"){
-            propertyData = propertyData.map(obj => obj.biology);
+            propertyData = propertyData.map(obj => obj.taxonomy);
             let biocol = Array(8).fill("");
             let biorow = [];
             for(let bioherb of propertyData){
@@ -69,9 +69,8 @@ app.get('/getherbproperty', async (req, res) => {
                 biorow.push(biocol);
                 biocol = Array(8).fill("");
             }
-            propertyDataArray['biology'] = biorow;
+            propertyDataArray['taxonomy'] = biorow;
         }else{
-            propertyData = propertyData.map(obj => obj._id);
             propertyDataArray[colName] = propertyData;
         }
     }
@@ -80,11 +79,10 @@ app.get('/getherbproperty', async (req, res) => {
     res.status(200).end();
 });
 
-async function updateProperty(collectionName, newPropertyList, oldPropertyList, nameEN){
-    let propertyNowAdd = newPropertyList.filter(value => !oldPropertyList.includes(value));
-    let propertyDisappear = oldPropertyList.filter(value => !newPropertyList.includes(value));
-    if(propertyNowAdd.length>0 || propertyDisappear.length>0){
-        //getherbproperty
+async function updateProperty(collectionName, propertyTextList, propertyIDList, nameEN){
+    if(propertyTextList.length>=1){
+        let idArray = [];
+
         var data = JSON.stringify({
             "collection": collectionName,
             "database": "herb_data",
@@ -94,48 +92,99 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
         await axios(request('post', data, 'find')).then((response) => {
             existProperty = response.data.documents;
         }).catch((error) => console.log(error))
-        
+    
+        let propertyOldList = existProperty.filter(value => propertyIDList.includes(value._id));    //กรองเอาเฉพาะตัวที่มีในเลขเก่า
+    
+        let maxIDPlusOne = 0;
+        for(let ep of existProperty){
+            maxIDPlusOne = Math.max(maxIDPlusOne, Number(ep._id));
+        }
+        maxIDPlusOne++;
+    
+        //map เอาลำดับไอดี คำอธิบายและชื่อสมุนไพรที่มี
         let propertyId = existProperty.map(obj => obj._id);
+        let propertyDes;
+        if(collectionName == "propertie") propertyDes = existProperty.map(obj => obj.propertie_description);
+        else if (collectionName == "substance") propertyDes = existProperty.map(obj => obj.substance_description);
+        else if (collectionName == "side_effect") propertyDes = existProperty.map(obj => obj.side_effect_description);
+        else if (collectionName == "forbidden_person") propertyDes = existProperty.map(obj => obj.forbidden_description);
         let propertyHerbname = existProperty.map(obj => obj.herb_name);
 
+        //เปรียบเทียบหาตัวที่หายไป
+        let propertyDisappear;
+        if(collectionName == "propertie") propertyDisappear = propertyOldList.filter(value => !propertyTextList.includes(value.propertie_description));
+        else if (collectionName == "substance") propertyDisappear = propertyOldList.filter(value => !propertyTextList.includes(value.substance_description));
+        else if (collectionName == "side_effect") propertyDisappear = propertyOldList.filter(value => !propertyTextList.includes(value.side_effect_description));
+        else if (collectionName == "forbidden_person") propertyDisappear = propertyOldList.filter(value => !propertyTextList.includes(value.forbidden_description));
+    
         //check
         let insertProperty = [] //objectlist
         let updateProperty = [] //[property, ลิสต์ชื่อ]
         let deletePropertyId = [] //_id list
         
-        for(let p=0; p<propertyNowAdd.length; p++){ //เพิ่งแก้ไข
-            if(propertyId.includes(propertyNowAdd[p])){  //ถ้ามีอยู่แล้วให้แก้ไข
-                let propertyIndex = propertyId.indexOf(propertyNowAdd[p]);
-                let herb_name = propertyHerbname[propertyIndex];
-                herb_name.push(nameEN);
-                updateProperty.push([propertyNowAdd[p], herb_name]);
+        for(let pt of propertyTextList){
+            if(propertyDes.includes(pt)){       //ถ้ามีอยู่ให้แก้ไข
+                let propertyIndex = propertyDes.indexOf(pt);
+                let herbNameList = propertyHerbname[propertyIndex];
+                idArray.push(propertyId[propertyIndex]);
+                if(!herbNameList.includes(nameEN)){ //มีอยู่แล้วแล้วไม่ได้แก้ไขอะไรเลยด้วย
+                    herbNameList.push(nameEN);
+                    updateProperty.push([propertyId[propertyIndex], herbNameList]);
+                }
             }else{                              //ถ้าไม่มีให้เพิ่ม
-                if(propertyNowAdd[p] != '' && propertyNowAdd[p] != ' '){
-                    insertProperty.push({
-                        "_id" : propertyNowAdd[p],
-                        "herb_name" : [nameEN]
-                    });
+                if(pt != ''){
+                    idArray.push(maxIDPlusOne);
+                    if(collectionName == "propertie"){
+                        insertProperty.push({
+                            "_id" : maxIDPlusOne,
+                            "propertie_description" : pt,
+                            "herb_name" : [nameEN]
+                        });
+                    }
+                    else if (collectionName == "substance"){
+                        insertProperty.push({
+                            "_id" : maxIDPlusOne,
+                            "substance_description" : pt,
+                            "herb_name" : [nameEN]
+                        });
+                    }
+                    else if (collectionName == "side_effect"){
+                        insertProperty.push({
+                            "_id" : maxIDPlusOne,
+                            "side_effect_description" : pt,
+                            "herb_name" : [nameEN]
+                        });
+                    }
+                    else if (collectionName == "forbidden_person"){
+                        insertProperty.push({
+                            "_id" : maxIDPlusOne,
+                            "forbidden_description" : pt,
+                            "herb_name" : [nameEN]
+                        });
+                    }
+                    maxIDPlusOne++;
                 }
             }
         }
-        for(let p=0; p<propertyDisappear.length; p++){ //ที่หายไป
-            let propertyIndex = propertyId.indexOf(propertyDisappear[p]);
+    
+        for(let pd of propertyDisappear){
+            let propertyIndex = propertyId.indexOf(pd._id);
             let herb_name = propertyHerbname[propertyIndex];
             if(herb_name.length<=1){   //ถ้ามีตัวเดียว
                 deletePropertyId.push(propertyId[propertyIndex])
             }
             else{  //ถ้ามี >1 ให้ลบสมาชิกแล้วอัพเดท
                 herb_name.splice(herb_name.indexOf(nameEN), 1)
-                updateProperty.push([propertyDisappear[p], herb_name]);
+                updateProperty.push([pd._id, herb_name]);
             }
         }
-
+    
         console.log(collectionName);
         console.log(insertProperty);
         console.log(updateProperty);
         console.log(deletePropertyId);
-        //ลูปปฏิบัติการ
-        //insert new property
+        // ลูปปฏิบัติการ
+        // insert new property
         if(insertProperty.length>0){
             var data = JSON.stringify({
                 "collection": collectionName,
@@ -145,7 +194,7 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
             });
             await axios(request('post', data, 'insertMany')).catch((error) => console.log(error));
         }
-
+    
         //update exist property
         for(let plist of updateProperty){
             var data = JSON.stringify({
@@ -161,7 +210,7 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
             });
             await axios(request('post', data, 'updateOne')).catch((error) => console.log(error)); 
         }
-
+    
         //delete empty property
         for(let pid of deletePropertyId){
             var data = JSON.stringify({
@@ -174,35 +223,24 @@ async function updateProperty(collectionName, newPropertyList, oldPropertyList, 
             });
             await axios(request('post', data, 'deleteOne')).catch((error) => console.log(error)); 
         }
+        return idArray;
     }
+    return []
 }
 app.post('/updateherb', async (req, res) => {
     let _id = await req.body.nameEN;
     let herbObject = await req.body.herbObject;
 
-    //เก็บอันเดิมมาเช็ค
-    var data = JSON.stringify({
-        "collection": "herb_lists",
-        "database": "herb_data",
-        "dataSource": "Cluster0",
-        "filter": {
-            "_id" : _id
-        },
-    });
-    let getdata = {}
-    await axios(request('post', data, 'findOne')).then((response) => {
-        getdata = response.data.document
-        console.log(getdata);
-    })
-    .catch((error) => {
-        console.log(error);
-    })
+    //เทียบแต่ละ property
+    let propertie = herbObject.propertie;
+    let substance = herbObject.substance;
+    let side_effect = herbObject.side_effect;
+    let forbiddenperson = herbObject.forbiddenperson;
 
-    let newHerbObject = herbObject;
-    if(newHerbObject.propertie != undefined && newHerbObject.propertie.length>0) newHerbObject.propertie = newHerbObject.propertie.filter(p => p.replaceAll(' ', '') != '');
-    if(newHerbObject.forbiddenperson != undefined && newHerbObject.forbiddenperson.length>0) newHerbObject.forbiddenperson = newHerbObject.forbiddenperson.filter(p => p.replaceAll(' ', '') != '');
-    if(newHerbObject.side_effect != undefined && newHerbObject.side_effect.length>0) newHerbObject.side_effect = newHerbObject.side_effect.filter(p => p.replaceAll(' ', '') != '');
-    if(newHerbObject.substance != undefined && newHerbObject.substance.length>0) newHerbObject.substance = newHerbObject.substance.filter(p => p.replaceAll(' ', '') != '');    
+    if(propertie != undefined) herbObject.propertie = await updateProperty('propertie', propertie[0], propertie[1], _id);
+    if(substance != undefined) herbObject.substance = await updateProperty('substance', substance[0], substance[1], _id);
+    if(side_effect != undefined) herbObject.side_effect = await updateProperty('side_effect', side_effect[0], side_effect[1], _id);
+    if(forbiddenperson != undefined) herbObject.forbiddenperson = await updateProperty('forbidden_person', forbiddenperson[0], forbiddenperson[1], _id);
 
     //อัพเดทอันใหม่ลงไป
     var data = JSON.stringify({
@@ -213,22 +251,11 @@ app.post('/updateherb', async (req, res) => {
             "_id" : _id
         },
         "update": {
-            "$set": newHerbObject
+            "$set": herbObject
         }
     });
     await axios(request('post', data, 'updateOne')).catch((error) => { res.send(error) });
-
-    //เทียบแต่ละ property
-    let propertie = herbObject.propertie;
-    let substance = herbObject.substance;
-    let side_effect = herbObject.side_effect;
-    let forbiddenperson = herbObject.forbiddenperson;
-    if(propertie != undefined) await updateProperty('propertie', propertie, getdata.propertie, _id);
-    if(substance != undefined) await updateProperty('substance', substance, getdata.substance, _id);
-    if(side_effect != undefined) await updateProperty('side_effect', side_effect, getdata.side_effect, _id);
-    if(forbiddenperson != undefined) await updateProperty('forbidden_person', forbiddenperson, getdata.forbiddenperson, _id);
     res.status(200).end();
-
 });
 
 //USER DATA APIs//

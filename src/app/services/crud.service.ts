@@ -5,17 +5,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CrudService {
+  private prefixURL:string = "http://localhost:9000"
+  // private prefixURL:string = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app"
 
   constructor(
     private http: HttpClient,
   ) { }
 
   async getHerb(){
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getherb";
+    const url = this.prefixURL + "/getherb";
     return await this.http.get<any>(url).toPromise();
   }
   async getHerbProperty(){
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getherbproperty";
+    const url = this.prefixURL + "/getherbproperty";
     return await this.http.get<any>(url).toPromise();
   }
 
@@ -30,12 +32,12 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/updateherb";
+    const url = this.prefixURL + "/updateherb";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
   
   async getUser(){
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/getalluser";
+    const url = this.prefixURL + "/getalluser";
     return await this.http.get<any>(url).toPromise();
   }
 
@@ -51,7 +53,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/register";
+    const url = this.prefixURL + "/register";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -66,7 +68,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/login";
+    const url = this.prefixURL + "/login";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -80,7 +82,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/confirmuser";
+    const url = this.prefixURL + "/confirmuser";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 
@@ -94,7 +96,7 @@ export class CrudService {
         'Accept' : 'application/json'
       })
     };
-    const url = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app/deleteuser";
+    const url = this.prefixURL + "/deleteuser";
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
 }

@@ -10,7 +10,7 @@
     <div class="filter-top">
         <div class="search-bar">
             <p>ระบุชื่อภาษาไทยหรือชื่อภาษาอังกฤษของสมุนไพร : </p>
-            <input type="text" #searchbox>
+            <input type="text" #searchbox placeholder="ชื่อสมุนไพร, Herb Name">
         </div>
     </div>
     <div class="filter-body" *ngIf="!isLoadingProperty">
@@ -18,7 +18,7 @@
             <h4>อนุกรมวิธาน</h4>
             <div class="samerow" *ngFor="let biolabel of bioLabel; let i = index">
                 <label>{{biolabel}} : </label>
-                <select class="biofilterlist" (change)="bioCheckingDisplay()" name="biologyfilter">
+                <select class="biofilterlist" (change)="bioCheckingDisplay()" name="biologyfilter"> 
                     <option *ngFor="let bio of displayBio[i]" value="{{bio}}">{{bio}}</option>
                 </select>
             </div>
@@ -30,15 +30,15 @@
                     <td>สรรพคุณของสมุนไพร : </td>
                     <td>
                         <select #propertiefilter name="propertiefilter">
-                            <option *ngFor="let propertie of herbProperty.propertie" value="{{propertie}}">{{shortstring(propertie)}}</option>
+                            <option *ngFor="let propertie of herbProperty.propertie" value="{{propertie._id}}">{{shortstring(propertie.propertie_description)}}</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>ผู้ที่ห้ามรับประทาน : </td>
                     <td>
-                        <select #forbiddenfilter  name="forbiddenfilter">
-                            <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden}}">{{shortstring(forbidden)}}</option>
+                        <select #forbiddenfilter name="forbiddenfilter">
+                            <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden._id}}">{{shortstring(forbidden.forbidden_description)}}</option>
                         </select>
                     </td>
                 </tr>
@@ -46,7 +46,7 @@
                     <td>สารเคมีในสมุนไพร : </td>
                     <td>
                         <select #substancefilter name="substancefilter">
-                            <option *ngFor="let substance of herbProperty.substance" value="{{substance}}">{{shortstring(substance)}}</option>
+                            <option *ngFor="let substance of herbProperty.substance" value="{{substance._id}}">{{shortstring(substance.substance_description)}}</option>
                         </select>
                     </td>
                 </tr>
@@ -54,7 +54,7 @@
                     <td>ผลข้างเคียงของสมุนไพร : </td>
                     <td>
                         <select #sideeffectfilter name="sideeffectfilter">
-                            <option *ngFor="let side_effect of herbProperty.side_effect" value="{{side_effect}}">{{shortstring(side_effect)}}</option>
+                            <option *ngFor="let side_effect of herbProperty.side_effect" value="{{side_effect._id}}">{{shortstring(side_effect.side_effect_description)}}</option>
                         </select>
                     </td>
                 </tr>
@@ -63,7 +63,17 @@
 
         <div class="button-bar">
             <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value, searchbox.value])">ยืนยันเงื่อนไขการค้นหา</button>
-            <button class="cancel" (click)="clearResult.emit()">ล้างผลลัพธ์การค้นหา</button>
+            <button class="cancel" (click)="
+                                            propertiefilter.value = 'ไม่ระบุ';
+                                            forbiddenfilter.value = 'ไม่ระบุ';
+                                            sideeffectfilter.value = 'ไม่ระบุ';
+                                            sideeffectfilter.value = 'ไม่ระบุ';
+                                            searchbox.value = '';
+                                            clear();
+                                            clearResult.emit();
+                                            ">
+                ล้างผลลัพธ์การค้นหา
+            </button>
         </div>
     </div>
 </div>

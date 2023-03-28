@@ -11,6 +11,7 @@ import { AuthenticationService } from '../services/auth.service';
 })
 export class HerbDetailComponent implements OnInit {
   herb : any;
+  herbproperty : any;
   herbpath : string = '';
   scienceName : string = '';
 
@@ -34,12 +35,13 @@ export class HerbDetailComponent implements OnInit {
 
   async loadHerbData(){
     var herbs = await this.herbs_session.getHerbs();
+    this.herbproperty = await this.herbs_session.getHerbProperty();
     this.herb = herbs.filter((obj:any) => {
       return obj.nameTH == this.herbpath
     })[0];
 
     this.herb.botanic_propertie = this.herb.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
-    this.herb.biology = this.herb.biology.map((obj:any) => Object.entries(obj));
+    this.herb.biology = this.herb.taxonomy.map((obj:any) => Object.entries(obj));
 
     let titleCaseSuffig = ''
     if(this.herb.biology[this.herb.biology.length-1][2][1].split(/\s+/).length>1){
@@ -58,7 +60,12 @@ export class HerbDetailComponent implements OnInit {
     if((from == 'taga' && !this.isModifymode) || from != 'taga'){
       this.isModifymode = this.isModifymode?false:true;
     }
-    
+  }
+  mapIDtoProperty(id:number, type:string){
+    if(type == "pro") return this.herbproperty.propertie.find((obj:any) => obj._id == id).propertie_description;
+    else if(type == "side") return this.herbproperty.side_effect.find((obj:any) => obj._id == id).side_effect_description;
+    else if(type == "sub") return this.herbproperty.substance.find((obj:any) => obj._id == id).substance_description;
+    else if(type == "for") return this.herbproperty.forbidden_person.find((obj:any) => obj._id == id).forbidden_description;
   }
 
   async submitModify(){
@@ -97,7 +104,7 @@ export class HerbDetailComponent implements OnInit {
               'value': propertyArray[b]
             })
           }
-          herbObject.biology = biologyArray;
+          herbObject.taxonomy = biologyArray;
           break;
 
         case 'description-detail':
@@ -121,19 +128,19 @@ export class HerbDetailComponent implements OnInit {
           break;
         
         case 'propertie-detail':
-          if(propertyArray.length>0) herbObject.propertie = propertyArray;
+          if(propertyArray.length>0) herbObject.propertie = [propertyArray, this.herb.propertie];
           break;
 
         case 'substance-detail':
-          if(propertyArray.length>0) herbObject.substance = propertyArray;
+          if(propertyArray.length>0) herbObject.substance = [propertyArray, this.herb.substance];
           break;
 
         case 'sideeffect-detail':
-          if(propertyArray.length>0) herbObject.side_effect = propertyArray;
+          if(propertyArray.length>0) herbObject.side_effect = [propertyArray, this.herb.side_effect];
           break;
 
         case 'forbiddenperson-detail':
-          if(propertyArray.length>0) herbObject.forbiddenperson = propertyArray;
+          if(propertyArray.length>0) herbObject.forbiddenperson = [propertyArray, this.herb.forbiddenperson];
           break;   
           
         default:
@@ -143,6 +150,7 @@ export class HerbDetailComponent implements OnInit {
     }
     await this.crud.updateHerb(this.herb._id, herbObject);
     sessionStorage.removeItem('herbs');
+    sessionStorage.removeItem('herbPropertyList');
     await this.loadHerbData();
     console.log(this.herb._id, herbObject);
     this.isUpdating = false;

@@ -35,6 +35,7 @@ export class AppComponent {
 
   async loadData(){
     await this.service.getHerbs()
+    await this.service.getHerbProperty()
     this.loadFinish = true;
   }
 
