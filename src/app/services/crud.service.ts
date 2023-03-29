@@ -7,8 +7,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CrudService {
   // private prefixURL:string = "http://localhost:9000"
   private prefixURL:string = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app"
-  private prefixScrapingURL:string = "http://127.0.0.1:5000"
-  // private prefixScrapingURL:string = "https://thaiherb-fbcfd.as.r.appspot.com"
+  // private prefixScrapingURL:string = "http://127.0.0.1:5000"
+  private prefixScrapingURL:string = "https://thaiherb-fbcfd.as.r.appspot.com"
 
   constructor(
     private http: HttpClient,
@@ -17,7 +17,6 @@ export class CrudService {
   //SCRAPING DATA MANAGE
   async scraping(urlText:string){
     const url = this.prefixScrapingURL + "/scraping?url=" + urlText;
-    // return await this.http.get<any>(url).toPromise();
     const textResponse = await this.http.get(url, {responseType: 'text'}).toPromise();
     return textResponse;
   }

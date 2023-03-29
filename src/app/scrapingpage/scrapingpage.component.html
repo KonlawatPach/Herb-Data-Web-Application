@@ -14,7 +14,73 @@
       <h3 class="title">ผลลัพธ์จากการรวบรวมข้อมูลด้วยการ Scraping</h3>
     </div>
     <div class="body-response-box">
-      <p>{{responseText}}</p>
+      <div class="loading-circle" *ngIf="isScraping">
+          <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+          <h2>กำลังรวบรวมข้อมูล โปรดรอสักครู่..</h2>
+      </div>
+      <p *ngIf="!isJSONMode">{{responseText}}</p>
+      <div class="json-display-box" *ngIf="isJSONMode">
+        <h3 *ngIf="responseJSON.status == 'insert'">เพิ่มรายการสมุนไพรใหม่</h3>
+        <h3 *ngIf="responseJSON.status != 'insert'">อัพเดทข้อมูลสมุนไพรนี้เพิ่มเติม</h3>
+        <div>
+          <b>ชื่อสมุนไพรภาษาไทย : </b><span>{{responseJSON.nameTH}}</span>
+        </div>
+        <div>
+          <b>ชื่อสมุนไพรภาษาอังกฤษ : </b><span>{{responseJSON._id}}</span>
+        </div>
+        <div>
+          <b>คำอธิบาย : </b><span>{{responseJSON.description}}</span>
+        </div>
+        <div>
+          <table>
+            <tr>
+                <th colspan="2">ลำดับชั้นทางวิทยาศาสตร์</th>
+            </tr>
+            <tr *ngFor="let bio of responseJSON.taxonomy">
+                <td>{{bio[0][1]}}: </td>
+                <td>{{bio[2][1]}}</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <b>ส่วนประกอบ : </b>
+          <div *ngFor="let bp of responseJSON.botanic_propertie">
+            <b>{{bp[0]}} : </b>
+            <span>{{bp[1]}}</span>
+          </div>
+        </div>
+        <div>
+          <b>สรรพคุณ : </b>
+          <ul>
+            <li *ngFor="let s of responseJSON.propertie">{{s}}</li>
+          </ul>
+        </div>
+        <div>
+          <b>ผลข้างเคียง : </b>
+          <ul>
+            <li *ngFor="let s of responseJSON.side_effect">{{s}}</li>
+          </ul>
+        </div>
+        <div>
+          <b>สารเคมี : </b>
+          <ul>
+            <li *ngFor="let s of responseJSON.substance">{{s}}</li>
+          </ul>
+        </div>
+        <div>
+          <b>ผู้ที่ห้ามรับประทาน : </b>
+          <ul>
+            <li *ngFor="let s of responseJSON.forbiddenperson">{{s}}</li>
+          </ul>
+        </div>
+        <div>
+          <b>Reference: </b>
+          <ul>
+            <li *ngFor="let r of responseJSON.reference">{{r}}</li>
+          </ul>
+        </div>
+        
+      </div>
     </div>
   </div>
 </div>
