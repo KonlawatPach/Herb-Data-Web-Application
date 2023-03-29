@@ -5,12 +5,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CrudService {
-  private prefixURL:string = "http://localhost:9000"
-  // private prefixURL:string = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app"
+  // private prefixURL:string = "http://localhost:9000"
+  private prefixURL:string = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app"
+  private prefixScrapingURL:string = "http://127.0.0.1:5000"
+  // private prefixScrapingURL:string = "https://thaiherb-fbcfd.as.r.appspot.com"
 
   constructor(
     private http: HttpClient,
   ) { }
+
+  //SCRAPING DATA MANAGE
+  async scraping(urlText:string){
+    const url = this.prefixScrapingURL + "/scraping?url=" + urlText;
+    // return await this.http.get<any>(url).toPromise();
+    const textResponse = await this.http.get(url, {responseType: 'text'}).toPromise();
+    return textResponse;
+  }
+
+
+  //HERB DATA MANAGE
 
   async getHerb(){
     const url = this.prefixURL + "/getherb";
@@ -36,6 +49,8 @@ export class CrudService {
     return await this.http.post<any>(url, body, httpOptions).toPromise();
   }
   
+  //USER DATA MANAGE
+
   async getUser(){
     const url = this.prefixURL + "/getalluser";
     return await this.http.get<any>(url).toPromise();

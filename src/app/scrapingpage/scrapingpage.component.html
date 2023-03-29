@@ -1,8 +1,20 @@
-<div class="herbs-scraper">
-    <h1 class="herbs-scraper__title">รวบรวมข้อมูลสมุนไพร (Web Scraping)</h1>
-    <form class="herbs-scraper__form" (ngSubmit)="onSubmit()">
-      <label for="herb-name" class="herbs-scraper__label">ระบุ URL หรือชื่อสมุนไพรไทย:</label>
-      <input id="herb-name" type="text" class="herbs-scraper__input" [(ngModel)]="herbName" name="herbName" required>
-      <button type="submit" class="herbs-scraper__button">Submit</button>
-</form>
+<div class="scraping-container">
+  <div class="scraping-box">
+    <div class="topbox">
+      <h3 class="title">รวบรวมข้อมูลสมุนไพร (Web Scraping)</h3>
+    </div>
+    <div class="scraping-search-bar">
+      <span>ระบุ URL หรือชื่อสมุนไพรไทย:</span>
+      <input type="text" #herbinput (keyup.enter)="onSubmit(herbinput.value)">
+    </div>
+    <button type="submit" [disabled]="isScraping" (click)="onSubmit(herbinput.value)">Scraping</button>
+  </div>
+  <div class="response-box">
+    <div class="topbox">
+      <h3 class="title">ผลลัพธ์จากการรวบรวมข้อมูลด้วยการ Scraping</h3>
+    </div>
+    <div class="body-response-box">
+      <p>{{responseText}}</p>
+    </div>
+  </div>
 </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CrudService } from '../services/crud.service';
 
 @Component({
   selector: 'app-scrapingpage',
@@ -6,15 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scrapingpage.component.scss']
 })
 export class ScrapingpageComponent implements OnInit {
-  public herbName: string = "";
 
-  onSubmit() {
-    // TODO: handle form submission
-  }
+  isScraping:boolean = false;
+  responseText:any = ". . .";
 
-  constructor() { }
+  constructor(
+    private crud: CrudService
+  ) {}
 
   ngOnInit(): void {
   }
 
+  async onSubmit(herbURL:string) {
+    if(herbURL != ''){
+      this.responseText = "";
+      this.isScraping = true;
+      let res = await this.crud.scraping(herbURL);
+      this.isScraping = false;
+      this.responseText = res;
+    }
+  }
 }
