@@ -18,9 +18,12 @@
             <h4>อนุกรมวิธาน</h4>
             <div class="samerow" *ngFor="let biolabel of bioLabel; let i = index">
                 <label>{{biolabel}} : </label>
-                <select class="biofilterlist" (change)="bioCheckingDisplay()" name="biologyfilter"> 
+                <!-- <select class="biofilterlist" [(ngModel)]="taxonomyValue[i]" (change)="bioCheckingDisplay()" name="biologyfilter"> 
                     <option *ngFor="let bio of displayBio[i]" value="{{bio}}">{{bio}}</option>
-                </select>
+                </select> -->
+                <ng-select class="biofilterlist" [(ngModel)]="taxonomyValue[i]" (change)="bioCheckingDisplay()" name="biologyfilter">
+                    <ng-option *ngFor="let bio of displayBio[i]" value="{{bio}}">{{bio}}</ng-option>
+                </ng-select>
             </div>
         </div>
         <div class="propertyfilter">
@@ -29,45 +32,56 @@
                 <tr>
                     <td>สรรพคุณของสมุนไพร : </td>
                     <td>
-                        <select #propertiefilter name="propertiefilter">
+                        <ng-select [(ngModel)]="propertieValue">
+                            <ng-option *ngFor="let propertie of propertieOption" [value]="propertie._id">{{propertie.description}}</ng-option>
+                        </ng-select>
+
+                        <!-- <select #propertiefilter name="propertiefilter">
                             <option *ngFor="let propertie of herbProperty.propertie" value="{{propertie._id}}">{{shortstring(propertie.propertie_description)}}</option>
-                        </select>
+                        </select> -->
                     </td>
                 </tr>
                 <tr>
                     <td>ผู้ที่ห้ามรับประทาน : </td>
                     <td>
-                        <select #forbiddenfilter name="forbiddenfilter">
+                        <ng-select [(ngModel)]="forbiddenValue">
+                            <ng-option *ngFor="let forbidden of forbiddenOption" [value]="forbidden._id">{{forbidden.description}}</ng-option>
+                        </ng-select>
+                         
+                        <!-- <select #forbiddenfilter name="forbiddenfilter">
                             <option *ngFor="let forbidden of herbProperty.forbidden_person" value="{{forbidden._id}}">{{shortstring(forbidden.forbidden_description)}}</option>
-                        </select>
+                        </select> -->
                     </td>
                 </tr>
                 <tr>
                     <td>สารเคมีในสมุนไพร : </td>
                     <td>
-                        <select #substancefilter name="substancefilter">
+                        <ng-select [(ngModel)]="substanceValue">
+                            <ng-option *ngFor="let substance of substanceOption" [value]="substance._id">{{substance.description}}</ng-option>
+                        </ng-select>
+                        <!-- <select #substancefilter name="substancefilter">
                             <option *ngFor="let substance of herbProperty.substance" value="{{substance._id}}">{{shortstring(substance.substance_description)}}</option>
-                        </select>
+                        </select> -->
                     </td>
                 </tr>
                 <tr>
                     <td>ผลข้างเคียงของสมุนไพร : </td>
                     <td>
-                        <select #sideeffectfilter name="sideeffectfilter">
+                        <ng-select [(ngModel)]="side_effectValue">
+                            <ng-option *ngFor="let side_effect of side_effectOption" [value]="side_effect._id">{{side_effect.description}}</ng-option>
+                        </ng-select>
+
+                        <!-- <select #sideeffectfilter name="sideeffectfilter">
                             <option *ngFor="let side_effect of herbProperty.side_effect" value="{{side_effect._id}}">{{shortstring(side_effect.side_effect_description)}}</option>
-                        </select>
+                        </select> -->
                     </td>
                 </tr>
             </table>
         </div>
 
         <div class="button-bar">
-            <button class="submit" (click)="submit([propertiefilter.value, forbiddenfilter.value, substancefilter.value, sideeffectfilter.value, searchbox.value])">ยืนยันเงื่อนไขการค้นหา</button>
+            <button class="submit" (click)="submit(searchbox.value)">ยืนยันเงื่อนไขการค้นหา</button>
             <button class="cancel" (click)="
-                                            propertiefilter.value = 'ไม่ระบุ';
-                                            forbiddenfilter.value = 'ไม่ระบุ';
-                                            sideeffectfilter.value = 'ไม่ระบุ';
-                                            sideeffectfilter.value = 'ไม่ระบุ';
                                             searchbox.value = '';
                                             clear();
                                             clearResult.emit();

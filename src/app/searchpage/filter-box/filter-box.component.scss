@@ -250,3 +250,49 @@
         }
     }
 }
+
+select{
+    width: 100%;
+    border: 1px black solid;
+    border-radius: 6px;
+    // outline: none;
+}
+select option:checked, option:hover {
+    background-color: green !important;
+    color: white;
+}
+select.decorated:hover{
+    background-color: rgb(224, 224, 224);
+}
+
+.propertyfilter .ng-select{
+    width: 268px;
+    border: 1px black solid;
+    border-radius: 6px;
+    padding-inline: 4px;
+    background-color: white;
+    font-size: 13.5px;
+}
+.biofilter .ng-select{
+    width: 140px;
+    border: 1px black solid;
+    border-radius: 6px;
+    padding-inline: 4px;
+    background-color: white;
+    font-size: 13.5px;
+}
+::ng-deep .ng-dropdown-panel-items{
+    width: 400px;
+    border: 1px black solid;
+    right: 5px;
+}
+::ng-deep .ng-option{
+    background-color: white;
+    height: 30px;
+    color: black;
+    padding-left: 4px;
+}
+::ng-deep .ng-option:hover, ::ng-deep .ng-option-selected{
+    background-color: green;
+    color: white;
+}

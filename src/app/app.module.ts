@@ -3,11 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { RouterModule, Route } from '@angular/router';
-import { Observable } from 'rxjs';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms' 
+import { ReactiveFormsModule } from '@angular/forms'
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,6 +43,7 @@ import { ScrapingpageComponent } from './scrapingpage/scrapingpage.component';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    NgSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
