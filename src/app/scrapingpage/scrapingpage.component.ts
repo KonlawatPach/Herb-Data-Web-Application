@@ -12,6 +12,7 @@ export class ScrapingpageComponent implements OnInit {
   isScraping : boolean = false;
   responseText:any = "";
   responseJSON:any = {};
+  queueNumber:number = -1;
 
   constructor(
     private crud: CrudService
@@ -23,22 +24,39 @@ export class ScrapingpageComponent implements OnInit {
   async onSubmit(herbURL:string) {
     if(herbURL != ''){
       this.responseText = "";
+      this.queueNumber = -1;
       this.isScraping = true;
-      let res = await this.crud.scraping(herbURL);
-
-      this.isScraping = false;
-      if(res!.startsWith("{")){       //string obj response
-        this.responseJSON = JSON.parse(res!.replace(/\\u[\dA-F]{4}/gi, match => String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16))));
-        this.responseJSON.botanic_propertie = this.responseJSON.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
-        this.responseJSON.taxonomy = this.responseJSON.taxonomy.map((obj:any) => Object.entries(obj));
-        this.isJSONMode = true;
-        console.log(this.responseJSON);
-      }
-      else{                           //string response
-        this.responseText = res;
-        this.isJSONMode = false;
-      }
-      
+      this.crud.scraping(herbURL);
+      this.loopRequest(herbURL);  
     }
+  }
+
+  async loopRequest(herbURL:string){
+    setTimeout(() => {
+      const interval = 8000;
+      const timerId = setInterval(async () => {
+        let res = await this.crud.status(herbURL);
+        this.responseJSON = JSON.parse(res!.replace(/\\u[\dA-F]{4}/gi, match => String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16))));
+        console.log(this.responseJSON);
+
+        if (Number(this.responseJSON.status) == 1) {
+          clearInterval(timerId);
+          
+          this.isScraping = false;
+          if(typeof this.responseJSON === 'object'){       //string obj response
+            this.responseJSON.botanic_propertie = this.responseJSON.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
+            this.responseJSON.taxonomy = this.responseJSON.taxonomy.map((obj:any) => Object.entries(obj));
+            this.isJSONMode = true;
+          }
+          else{                           //string response
+            this.responseText = this.responseJSON.result;
+            this.isJSONMode = false;
+          }
+        }
+        else{
+          this.queueNumber = Number(this.responseJSON.result);
+        }
+      }, interval);
+    }, 5000)
   }
 }

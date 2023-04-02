@@ -16,12 +16,13 @@
     <div class="body-response-box">
       <div class="loading-circle" *ngIf="isScraping">
           <div class="loading"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-          <h2>กำลังรวบรวมข้อมูล โปรดรอสักครู่..</h2>
+          <h2 *ngIf="queueNumber > -1">กรุณารอคิวการวิเคราะห์สักครู่ คุณอยู่ในคิวที่ {{queueNumber}}</h2>
+          <h2 *ngIf="queueNumber <= -1">กำลังส่งข้อมูลให้ระบบประมวลผล โปรดรอสักครู่</h2>
       </div>
       <p *ngIf="!isJSONMode">{{responseText}}</p>
       <div class="json-display-box" *ngIf="isJSONMode">
-        <h3 *ngIf="responseJSON.status == 'insert'">เพิ่มรายการสมุนไพรใหม่</h3>
-        <h3 *ngIf="responseJSON.status != 'insert'">อัพเดทข้อมูลสมุนไพรนี้เพิ่มเติม</h3>
+        <h3 *ngIf="responseJSON.process == 'insert'">เพิ่มรายการสมุนไพรใหม่</h3>
+        <h3 *ngIf="responseJSON.process != 'insert'">อัพเดทข้อมูลสมุนไพรนี้เพิ่มเติม</h3>
         <div>
           <b>ชื่อสมุนไพรภาษาไทย : </b><span>{{responseJSON.nameTH}}</span>
         </div>

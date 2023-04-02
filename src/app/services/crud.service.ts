@@ -21,6 +21,12 @@ export class CrudService {
     return textResponse;
   }
 
+  async status(urlText:string){
+    const url = this.prefixScrapingURL + "/status?url=" + urlText;
+    const textResponse = await this.http.get(url, {responseType: 'text'}).toPromise();
+    return textResponse;
+  }
+
 
   //HERB DATA MANAGE
 
