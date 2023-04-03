@@ -23,6 +23,7 @@
       <div class="json-display-box" *ngIf="isJSONMode">
         <h3 *ngIf="responseJSON.process == 'insert'">เพิ่มรายการสมุนไพรใหม่</h3>
         <h3 *ngIf="responseJSON.process != 'insert'">อัพเดทข้อมูลสมุนไพรนี้เพิ่มเติม</h3>
+        <img src="{{responseJSON.picture}}" width="350px" alt="herbpicture">
         <div>
           <b>ชื่อสมุนไพรภาษาไทย : </b><span>{{responseJSON.nameTH}}</span>
         </div>

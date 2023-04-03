@@ -94,7 +94,10 @@ export class FilterBoxComponent implements OnInit {
     filterValue.push(this.side_effectValue);
     filterValue.push(searchBoxValue);
 
-    //taxonomy dropdown
+    // taxonomy dropdown
+    for(let i=0; i<this.taxonomyValue.length;i++){
+      if(this.taxonomyValue[i] == null) this.taxonomyValue[i] = 'ไม่ระบุ';
+    }
     // let biofilterlist:any = document.getElementsByClassName("biofilterlist");
     // let newbiofilterlist = [];
     // for(let x=0; x<biofilterlist.length; x++) newbiofilterlist.push(biofilterlist[x].value);

@@ -37,20 +37,19 @@ export class ScrapingpageComponent implements OnInit {
       const timerId = setInterval(async () => {
         let res = await this.crud.status(herbURL);
         this.responseJSON = JSON.parse(res!.replace(/\\u[\dA-F]{4}/gi, match => String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16))));
-        console.log(this.responseJSON);
 
         if (Number(this.responseJSON.status) == 1) {
           clearInterval(timerId);
           
           this.isScraping = false;
-          if(typeof this.responseJSON === 'object'){       //string obj response
+          if(typeof this.responseJSON.result === 'string'){       //string response
+            this.responseText = this.responseJSON.result;
+            this.isJSONMode = false;
+          }
+          else{                                                   //obj response
             this.responseJSON.botanic_propertie = this.responseJSON.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
             this.responseJSON.taxonomy = this.responseJSON.taxonomy.map((obj:any) => Object.entries(obj));
             this.isJSONMode = true;
-          }
-          else{                           //string response
-            this.responseText = this.responseJSON.result;
-            this.isJSONMode = false;
           }
         }
         else{
