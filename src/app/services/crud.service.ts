@@ -5,10 +5,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CrudService {
+  //ส่วนปรับใช้ local หรือ cloud api
+  
   // private prefixURL:string = "http://localhost:9000"
   private prefixURL:string = "https://us-central1-thaiherb-fbcfd.cloudfunctions.net/app"
-  // private prefixScrapingURL:string = "http://127.0.0.1:5000"
-  private prefixScrapingURL:string = "https://thaiherb-fbcfd.as.r.appspot.com"
+  private prefixScrapingURL:string = "http://127.0.0.1:5000"
+  // private prefixScrapingURL:string = "https://thaiherb-fbcfd.as.r.appspot.com"
 
   constructor(
     private http: HttpClient,

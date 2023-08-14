@@ -80,10 +80,10 @@ export class HerbDetailComponent implements OnInit {
                           'forbiddenperson-detail', 
                         ];
     let herbObject:any = {};
-    let botanicTitleArray = [];
+    let botanicTitleArray:any = [];
 
     for(let classnameIndex in classNamelist){
-      let propertyArray = [];
+      let propertyArray:any = [];
       let tag = document.getElementsByClassName(classNamelist[classnameIndex]);
       if(tag.length>0){
         for(let t in tag){
@@ -116,15 +116,8 @@ export class HerbDetailComponent implements OnInit {
           break;
         
         case 'botanic-content-detail':
-          botanicTitleArray = [...propertyArray];
-          let botanicArray = []
-          for(let b=0; b<botanicTitleArray.length; b++) {
-            botanicArray.push({
-              botanicTitleArray: propertyArray[b]
-            })
-          }
-
-          herbObject.botanic_propertie = botanicArray;
+          let botanicDetailArray = [...propertyArray];
+          herbObject.botanic_propertie = botanicTitleArray.map((key:any, index:any) => ({ [key]: botanicDetailArray[index] }));
           break;
         
         case 'propertie-detail':

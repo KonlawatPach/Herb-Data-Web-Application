@@ -26,27 +26,38 @@ export class ScrapingpageComponent implements OnInit {
       this.responseText = "";
       this.queueNumber = -1;
       this.isScraping = true;
-      this.crud.scraping(herbURL);
+      await this.crud.scraping(herbURL);
       this.loopRequest(herbURL);  
     }
   }
 
   async loopRequest(herbURL:string){
+    let countTimeout = 0; 
+
     setTimeout(() => {
       const interval = 8000;
       const timerId = setInterval(async () => {
         let res = await this.crud.status(herbURL);
         this.responseJSON = JSON.parse(res!.replace(/\\u[\dA-F]{4}/gi, match => String.fromCharCode(parseInt(match.replace(/\\u/g, ''), 16))));
 
+        console.log(this.responseJSON);
         if (Number(this.responseJSON.status) == 1) {
-          clearInterval(timerId);
           
-          this.isScraping = false;
           if(typeof this.responseJSON.result === 'string'){       //string response
-            this.responseText = this.responseJSON.result;
-            this.isJSONMode = false;
+            if(this.responseJSON.result == "Sorry in our Code have some problem to scraping this url"){
+              countTimeout++;
+            }
+            else if(this.responseJSON.result != "Sorry in our Code have some problem to scraping this url" || countTimeout > 3){
+              this.responseText = this.responseJSON.result;
+              this.isJSONMode = false;
+              clearInterval(timerId);
+              this.isScraping = false;
+            }
+            
           }
           else{                                                   //obj response
+            clearInterval(timerId);
+            this.isScraping = false;
             this.responseJSON.botanic_propertie = this.responseJSON.botanic_propertie.map((obj:any) => Object.entries(obj)[0]);
             this.responseJSON.taxonomy = this.responseJSON.taxonomy.map((obj:any) => Object.entries(obj));
             this.isJSONMode = true;
